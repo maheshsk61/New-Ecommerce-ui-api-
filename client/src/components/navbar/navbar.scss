@@ -1,0 +1,10 @@
+@use "../../scss/colors" as *;
+.navbar {
+  background-color: $black-color;
+}
+.search-field {
+  background-color: $white-color;
+  & .MuiOutlinedInput-notchedOutline {
+    border: $none;
+  }
+}
