@@ -18,19 +18,6 @@ router.get('/productLists/:id', (req, res) => {
     res.json(product);
 });
 
-// Routes for categories
-router.get('/categories', (req, res) => {
-    res.json(categories);
-});
-
-router.get('/categories/:id', (req, res) => {
-    const category = categories.find(c => c.id === parseInt(req.params.id));
-    if (!category) {
-        return res.status(404).send('Category not found');
-    }
-    res.json(category);
-});
-
 // Routes for users
 router.get('/users', (req, res) => {
     res.json(users);
