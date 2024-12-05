@@ -7,13 +7,25 @@ import {
   Typography,
 } from "@mui/material";
 import "./navbar.scss";
+import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { constant } from "./constant";
+import { constant } from "../../constant";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../Redux/store";
+import { setSearchQuery } from "../../Redux/slices/search-query";
+import { ISearchQuery } from "../../interface";
 
 const Navbar: React.FC = (): JSX.Element => {
-  const handleSearch=()=>{
+  const dispatch = useDispatch<AppDispatch>();
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value: string = event.target.value;
+    dispatch(setSearchQuery(value));
+  };
+  const searchQuery: ISearchQuery = useSelector(
+    (state: RootState) => state.search
+  );
+  //console.log(`searchQuery ${searchQuery.query}`)
 
-  }
   return (
     <Box>
       <AppBar position="fixed">
@@ -25,9 +37,20 @@ const Navbar: React.FC = (): JSX.Element => {
             width: "100%",
           }}
         >
-          <Typography variant="h6"><i>{constant.shopBazaar}</i></Typography>
+          <Typography variant="h6">
+            <Link
+              to="/"
+              className="text-white text-decoration-none"
+              onClick={() => {
+                dispatch(setSearchQuery(""));
+              }}
+            >
+              <i>{constant.shopBazaar}</i>
+            </Link>
+          </Typography>
           <TextField
             type="search"
+            value={searchQuery.query}
             placeholder={constant.searchProductsHere}
             variant="outlined"
             className="search-field"

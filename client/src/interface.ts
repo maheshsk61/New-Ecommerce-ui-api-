@@ -1,6 +1,7 @@
 export interface Constants {
   shopBazaar?: string;
   searchProductsHere?: string;
+  noProductsFound?: string
 }
 export interface IProduct {
     id?:number,
@@ -11,4 +12,7 @@ export interface IProduct {
 export interface IProductList {
     list?:IProduct[],
     length?:number
+}
+export interface ISearchQuery {
+    query?:string;
 }
