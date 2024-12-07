@@ -3,7 +3,10 @@ export const constant: Constants = {
   shopBazaar: "shopBazaar",
   searchProductsHere: "search products here",
   noProductsFound: "No Products Found",
+  cartEmpty: "Your Cart is Empty",
   addToCart: "Add To Cart",
-  laptop:'Laptops',
-  headphone:'Headphones'
+  removeFromCart: "Remove From Cart",
+  laptop: "Laptops",
+  headphone: "Headphones",
+  rupees: "₹",
 };

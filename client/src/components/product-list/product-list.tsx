@@ -4,8 +4,15 @@ import { Box, Card, Typography, Skeleton, Grid2 } from "@mui/material";
 import "./product-list.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../Redux/store";
-import { setList,setLoading } from "../../Redux/slices/product-lists";
-import { IProduct, IProductList, ISearchQuery } from "../../interface";
+import { setList } from "../../Redux/slices/product-lists";
+import { setLoading } from "../../Redux/slices/loading";
+import {
+  ILoading,
+  IProduct,
+  IProductList,
+  IProductsData,
+  ISearchQuery,
+} from "../../interface";
 import { constant } from "../../constant";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { Link } from "react-router-dom";
@@ -16,14 +23,18 @@ const ProductList: React.FC = (): JSX.Element => {
     (state: RootState) => state.productLists
   );
   //console.log(`lists ${lists}`);
+  const loading: ILoading = useSelector((state: RootState) => state.loading);
+  //console.log(`loading ${JSON.stringify(loading)}`);
   const searchQuery: ISearchQuery = useSelector(
     (state: RootState) => state.search
   );
   //console.log(`searchQuery ${searchQuery.query}`)
-  const filteredProducts = (lists.list ?? []).filter((product) => {
-    const query: string = searchQuery.query?.toLowerCase() ?? "";
-    return product.name?.toLowerCase().includes(query);
-  });
+  const filteredProducts: IProductsData[] = (lists.list ?? []).filter(
+    (product) => {
+      const query: string = searchQuery.query?.toLowerCase() ?? "";
+      return product.name?.toLowerCase().includes(query);
+    }
+  );
   //console.log(`filteredProducts ${filteredProducts}`)
 
   useEffect(() => {
@@ -31,9 +42,9 @@ const ProductList: React.FC = (): JSX.Element => {
       try {
         const response = await productLists();
         setTimeout(() => {
-          dispatch(setLoading(true))
+          dispatch(setLoading(true));
           dispatch(setList(response.productLists));
-          dispatch(setLoading(false))
+          dispatch(setLoading(false));
         }, 1000);
       } catch (error) {
         return Promise.reject(error);
@@ -45,9 +56,9 @@ const ProductList: React.FC = (): JSX.Element => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: 10 }}>
+    <Box sx={{ padding: 5, marginTop: 7 }}>
       <Grid2 container spacing={5}>
-        {lists.loading ? (
+        {loading.loading ? (
           Array.from({ length: lists.length || 21 }, (_, index) => {
             return (
               <Grid2
@@ -67,7 +78,7 @@ const ProductList: React.FC = (): JSX.Element => {
                     width: "250px",
                     padding: 2,
                     borderRadius: 5,
-                    background: "var(--silver-color)",
+                    background: "var(--skeleton-color)",
                   }}
                 >
                   <Box className="d-flex justify-content-center ">

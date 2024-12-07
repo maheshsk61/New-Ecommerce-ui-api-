@@ -2,9 +2,12 @@ export interface Constants {
   shopBazaar: string;
   searchProductsHere: string;
   noProductsFound: string;
-  addToCart:string;
+  cartEmpty: string;
+  addToCart: string;
+  removeFromCart: string;
   laptop: string;
   headphone: string;
+  rupees: string;
 }
 export interface IProduct {
   id?: number;
@@ -15,7 +18,6 @@ export interface IProduct {
 export interface IProductList {
   list: IProduct[];
   length: number;
-  loading: boolean;
 }
 export interface ISearchQuery {
   query?: string;
@@ -29,8 +31,19 @@ export interface IProductsData {
 }
 export interface IProducts {
   products?: IProductsData[];
-  loading?:boolean;
+  loading?: boolean;
+  clickedProduct?: IProductsData[];
+  cartProducts?: any[];
 }
 export interface IButtons {
-  value:string;
+  value: string;
+  onClick: () => void;
+  backgroundColor?: string;
+}
+export interface IHandleButtons {
+  count: number;
+  cartItems: any[];
+}
+export interface ILoading {
+  loading: boolean;
 }

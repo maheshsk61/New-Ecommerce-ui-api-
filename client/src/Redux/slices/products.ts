@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProducts, IProductsData } from "./../../interface";
 const initialState: IProducts = {
   products: [],
-  loading: true
+  clickedProduct: [],
 };
 const productsSlice = createSlice({
   name: "products",
@@ -11,10 +11,10 @@ const productsSlice = createSlice({
     setProducts: (state, action: PayloadAction<IProductsData[]>) => {
       state.products = action.payload;
     },
-    setLoading: (state,action: PayloadAction<boolean>)=>{
-        state.loading=action.payload
-    }
+    setClickedProduct: (state, action: PayloadAction<IProductsData[]>) => {
+      state.clickedProduct = action.payload;
+    },
   },
 });
 export default productsSlice.reducer;
-export const { setProducts,setLoading } = productsSlice.actions;
+export const { setProducts, setClickedProduct } = productsSlice.actions;

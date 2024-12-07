@@ -1,13 +1,15 @@
 import { Box, Card, Grid2, Typography, Skeleton } from "@mui/material";
 import { IProducts, IProductsData } from "../../interface";
 import { Link } from "react-router-dom";
+import { constant } from "../../constant";
 
 const ProductView: React.FC<IProducts> = ({
   products,
   loading,
 }): JSX.Element => {
+  
   return (
-    <Box sx={{ padding: 5, marginTop: 10 }}>
+    <Box sx={{ padding: 5, marginTop: 7 }}>
       <Grid2 container spacing={5}>
         {loading
           ? Array.from({ length: 20 }, (_, index) => {
@@ -29,7 +31,7 @@ const ProductView: React.FC<IProducts> = ({
                       width: "250px",
                       padding: 2,
                       borderRadius: 5,
-                      background: "var(--silver-color)",
+                      background: "var(--skeleton-color)",
                     }}
                   >
                     <Box className="d-flex justify-content-center ">
@@ -95,7 +97,8 @@ const ProductView: React.FC<IProducts> = ({
                         }}
                         variant="h6"
                       >
-                        ₹{product.price}
+                        {constant.rupees}
+                        {product.price}
                       </Typography>
                     </Card>
                   </Link>

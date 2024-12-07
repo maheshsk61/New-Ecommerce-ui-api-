@@ -13,7 +13,8 @@ import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
 import { setSearchQuery } from "../../Redux/slices/search-query";
-import { ISearchQuery } from "../../interface";
+import { IHandleButtons, ISearchQuery } from "../../interface";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 const Navbar: React.FC = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,6 +26,9 @@ const Navbar: React.FC = (): JSX.Element => {
     (state: RootState) => state.search
   );
   //console.log(`searchQuery ${searchQuery.query}`)
+  const button: IHandleButtons = useSelector(
+    (state: RootState) => state.buttons
+  );
 
   return (
     <Box>
@@ -66,6 +70,14 @@ const Navbar: React.FC = (): JSX.Element => {
               ),
             }}
           />
+          <Box>
+            <Link to="/cart" style={{ color: "var(--white-color)" }}>
+              <ShoppingCartCheckoutIcon />
+            </Link>
+            <Typography component="span">
+              {button.count ? button.count : 0}
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
