@@ -1,11 +1,20 @@
 import { useParams } from "react-router-dom";
-import { ILoading, IProducts, IProductsData } from "../../interface";
+import {
+  IHandleButtons,
+  ILoading,
+  IProducts,
+  IProductsData,
+} from "../../interface";
 import { Box, Card, Grid2, Skeleton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
 import Buttons from "../reuse-components/button/button";
 import { constant } from "../../constant";
-import { setAddToCart, setCartItems } from "../../Redux/slices/handle-buttons";
+import {
+  setAddToCart,
+  setCartItems,
+  setIsDisabled,
+} from "../../Redux/slices/handle-buttons";
 import { setLoading } from "../../Redux/slices/loading";
 import { useEffect } from "react";
 import { setClickedProduct } from "../../Redux/slices/products";
@@ -14,9 +23,12 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const { productname } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const products: IProducts = useSelector((state: RootState) => state.products);
-  console.log(products);
+  //console.log(products);
   const loading: ILoading = useSelector((state: RootState) => state.loading);
   //console.log(`loading ${JSON.stringify(loading)}`);
+  const buttons: IHandleButtons = useSelector(
+    (state: RootState) => state.buttons
+  );
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -35,12 +47,16 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   }, [productname, dispatch, products.products]);
 
   const handleAddToCart = (product: IProductsData[] | any) => {
+    dispatch(setIsDisabled(true));
     dispatch(setAddToCart());
     dispatch(setCartItems(product));
+    setTimeout(() => {
+      dispatch(setIsDisabled(false));
+    }, 500);
   };
 
   return (
-    <Box sx={{ padding: 5, marginTop: 7 }}>
+    <Box sx={{ padding: 5, marginTop: 5 }}>
       <Grid2 container spacing={5}>
         {loading.loading
           ? Array.from(
@@ -59,7 +75,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                     }}
                     key={index}
                   >
-                    <Skeleton variant="rectangular" width={1600} height={400} />
+                    <Skeleton variant="rectangular" width={1200} height={400} />
                   </Grid2>
                 );
               }
@@ -82,7 +98,13 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                   key={product.id}
                   className="d-flex"
                 >
-                  <Card className="d-flex p-3">
+                  <Card
+                    className="p-3"
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "column", md: "row" },
+                    }}
+                  >
                     <Box className="d-flex flex-column">
                       <img
                         src={product.img}
@@ -92,11 +114,22 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                       <Buttons
                         value={constant.addToCart}
                         onClick={() => handleAddToCart(product)}
+                        sx={{ marginTop: 1, borderRadius: 2 }}
+                        isDisabled={buttons.isDisabled}
                       />
                     </Box>
                     <Box className="d-flex flex-column ms-5">
                       {/* ms(margin-left) me(margin-right) */}
-                      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          marginTop: {
+                            xs: 1,
+                            sm: 1,
+                            md: 0,
+                          },
+                        }}
+                      >
                         {product.name}
                       </Typography>
                       <Typography variant="h4">

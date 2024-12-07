@@ -4,13 +4,15 @@ const Buttons: React.FC<IButtons> = ({
   value,
   onClick,
   backgroundColor,
+  sx,
+  isDisabled,
 }): JSX.Element => {
-  
   return (
     <Button
       variant="contained"
       onClick={onClick}
-      sx={{ backgroundColor: backgroundColor }}
+      sx={{ backgroundColor: backgroundColor, ...sx }}
+      disabled={isDisabled}
     >
       {value}
     </Button>

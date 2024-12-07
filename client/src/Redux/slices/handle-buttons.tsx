@@ -3,6 +3,7 @@ import { IHandleButtons, IProductsData } from "../../interface";
 const initialState: IHandleButtons = {
   count: 0,
   cartItems: [],
+  isDisabled: false,
 };
 export const handleButtonsSlice = createSlice({
   name: "handle-buttons",
@@ -26,8 +27,12 @@ export const handleButtonsSlice = createSlice({
       state.cartItems = [...state.cartItems, action.payload];
       //console.log(`cart ${JSON.stringify(state.cartItems)}`);
     },
+    setIsDisabled(state, action: PayloadAction<boolean>) {
+      state.isDisabled = action.payload;
+      //console.log(state.isDisabled);
+    },
   },
 });
 export default handleButtonsSlice.reducer;
-export const { setAddToCart, setRemoveFromCart, setCartItems } =
+export const { setAddToCart, setRemoveFromCart, setCartItems, setIsDisabled } =
   handleButtonsSlice.actions;

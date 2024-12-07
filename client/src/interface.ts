@@ -39,10 +39,13 @@ export interface IButtons {
   value: string;
   onClick: () => void;
   backgroundColor?: string;
+  sx?: object;
+  isDisabled?: boolean;
 }
 export interface IHandleButtons {
   count: number;
   cartItems: any[];
+  isDisabled: boolean;
 }
 export interface ILoading {
   loading: boolean;

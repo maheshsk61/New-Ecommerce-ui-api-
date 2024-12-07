@@ -29,13 +29,24 @@ const ProductList: React.FC = (): JSX.Element => {
     (state: RootState) => state.search
   );
   //console.log(`searchQuery ${searchQuery.query}`)
+  const query: string = searchQuery.query?.toLowerCase() ?? "";
   const filteredProducts: IProductsData[] = (lists.list ?? []).filter(
     (product) => {
-      const query: string = searchQuery.query?.toLowerCase() ?? "";
       return product.name?.toLowerCase().includes(query);
     }
   );
   //console.log(`filteredProducts ${filteredProducts}`)
+  const notFilteredProducts: IProductsData[] = (lists.list ?? []).filter(
+    (product) => {
+      return !product.name?.toLowerCase().includes(query);
+    }
+  );
+  // console.log(`notFilteredProducts ${JSON.stringify(notFilteredProducts)}`);
+  const sortedFilteredProducts: IProductsData[] = [
+    ...filteredProducts,
+    ...notFilteredProducts,
+  ];
+  //console.log(`sortedFilteredProducts ${JSON.stringify(sortedFilteredProducts)}`);
 
   useEffect(() => {
     const getProductLists = async () => {
@@ -56,8 +67,8 @@ const ProductList: React.FC = (): JSX.Element => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: 7 }}>
-      <Grid2 container spacing={5}>
+    <Box sx={{ padding: 5, marginTop: 5 }}>
+      <Grid2 container columnSpacing={5}>
         {loading.loading ? (
           Array.from({ length: lists.length || 21 }, (_, index) => {
             return (
@@ -77,7 +88,6 @@ const ProductList: React.FC = (): JSX.Element => {
                   sx={{
                     width: "250px",
                     padding: 2,
-                    borderRadius: 5,
                     background: "var(--skeleton-color)",
                   }}
                 >
@@ -88,11 +98,13 @@ const ProductList: React.FC = (): JSX.Element => {
               </Grid2>
             );
           })
-        ) : filteredProducts.length > 0 ? (
-          filteredProducts.map((product: IProduct) => {
+        ) : sortedFilteredProducts && sortedFilteredProducts.length > 0 ? (
+          sortedFilteredProducts.map((product: IProduct, index) => {
             return (
               <Grid2
                 sx={{
+                  marginBottom:
+                    index === sortedFilteredProducts.length - 1 ? 0 : 1,
                   gridColumn: {
                     xs: "span 12",
                     sm: "span 6",
@@ -107,10 +119,7 @@ const ProductList: React.FC = (): JSX.Element => {
                   to={`${product.name}s`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Card
-                    sx={{ width: "250px", padding: 2, borderRadius: 5 }}
-                    className="card"
-                  >
+                  <Card sx={{ width: "250px", padding: 2 }} className="card">
                     <img
                       src={`http://localhost:4000${product.imageUrl}`}
                       alt={product.name}

@@ -1,16 +1,39 @@
 import { Box, Card, Grid2, Typography, Skeleton } from "@mui/material";
-import { IProducts, IProductsData } from "../../interface";
+import { IProducts, IProductsData, ISearchQuery } from "../../interface";
 import { Link } from "react-router-dom";
 import { constant } from "../../constant";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
 
 const ProductView: React.FC<IProducts> = ({
   products,
   loading,
 }): JSX.Element => {
-  
+  const searchQuery: ISearchQuery = useSelector(
+    (state: RootState) => state.search
+  );
+  const query: string = searchQuery.query?.toLowerCase() ?? "";
+  const filteredProducts: IProductsData[] = (products ?? []).filter(
+    (product) => {
+      return product.name?.toLowerCase().includes(query);
+    }
+  );
+  // console.log(`filteredProducts ${JSON.stringify(filteredProducts)}`);
+  const notFilteredProducts: IProductsData[] = (products ?? []).filter(
+    (product) => {
+      return !product.name?.toLowerCase().includes(query);
+    }
+  );
+  // console.log(`notFilteredProducts ${JSON.stringify(notFilteredProducts)}`);
+  const sortedFilteredProducts: IProductsData[] = [
+    ...filteredProducts,
+    ...notFilteredProducts,
+  ];
+  //console.log(`sortedFilteredProducts ${JSON.stringify(sortedFilteredProducts)}`);
+
   return (
-    <Box sx={{ padding: 5, marginTop: 7 }}>
-      <Grid2 container spacing={5}>
+    <Box sx={{ padding: 5, marginTop: 5 }}>
+      <Grid2 container columnSpacing={5}>
         {loading
           ? Array.from({ length: 20 }, (_, index) => {
               return (
@@ -30,7 +53,6 @@ const ProductView: React.FC<IProducts> = ({
                     sx={{
                       width: "250px",
                       padding: 2,
-                      borderRadius: 5,
                       background: "var(--skeleton-color)",
                     }}
                   >
@@ -45,12 +67,14 @@ const ProductView: React.FC<IProducts> = ({
                 </Grid2>
               );
             })
-          : products &&
-            products.length > 0 &&
-            products.map((product: IProductsData) => {
+          : sortedFilteredProducts &&
+            sortedFilteredProducts.length > 0 &&
+            sortedFilteredProducts.map((product: IProductsData, index) => {
               return (
                 <Grid2
                   sx={{
+                    marginBottom:
+                      index === sortedFilteredProducts.length - 1 ? 0 : 1,
                     gridColumn: {
                       xs: "span 12",
                       sm: "span 6",

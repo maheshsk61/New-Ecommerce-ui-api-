@@ -4,7 +4,10 @@ import { AppDispatch, RootState } from "../../Redux/store";
 import { IHandleButtons, ILoading, IProductsData } from "../../interface";
 import Buttons from "../reuse-components/button/button";
 import { constant } from "../../constant";
-import { setRemoveFromCart } from "../../Redux/slices/handle-buttons";
+import {
+  setIsDisabled,
+  setRemoveFromCart,
+} from "../../Redux/slices/handle-buttons";
 import { useEffect } from "react";
 import { setLoading } from "../../Redux/slices/loading";
 
@@ -12,10 +15,18 @@ const Cart: React.FC = (): JSX.Element => {
   const cart: IHandleButtons = useSelector((state: RootState) => state.buttons);
   //console.log(cart);
   const loading: ILoading = useSelector((state: RootState) => state.loading);
+  const buttons: IHandleButtons = useSelector(
+    (state: RootState) => state.buttons
+  );
   const dispatch = useDispatch<AppDispatch>();
   const handleRemoveFromCart = (product: IProductsData | any) => {
-    dispatch(setRemoveFromCart(product.id));
+    dispatch(setIsDisabled(true));
+    setTimeout(() => {
+      dispatch(setIsDisabled(false));
+      dispatch(setRemoveFromCart(product.id));
+    }, 500);
   };
+
   useEffect(() => {
     dispatch(setLoading(true));
     setTimeout(() => {
@@ -40,7 +51,7 @@ const Cart: React.FC = (): JSX.Element => {
               }}
               key={index}
             >
-              <Skeleton variant="rectangular" width={1600} height={400} />
+              <Skeleton variant="rectangular" width={1200} height={400} />
             </Grid2>
           );
         })
@@ -57,7 +68,7 @@ const Cart: React.FC = (): JSX.Element => {
           return (
             <Grid2
               sx={{
-                marginBottom: 10,
+                marginBottom: index === cart.cartItems.length - 1 ? 0 : 1,
                 gridColumn: {
                   xs: "span 12",
                   sm: "span 6",
@@ -69,7 +80,13 @@ const Cart: React.FC = (): JSX.Element => {
               key={`${index}`}
               className="d-flex"
             >
-              <Card className="d-flex p-3">
+              <Card
+                className="p-3"
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "column", md: "row" },
+                }}
+              >
                 <Box className="d-flex flex-column">
                   <img
                     src={product.img}
@@ -80,10 +97,24 @@ const Cart: React.FC = (): JSX.Element => {
                     value={constant.removeFromCart}
                     onClick={() => handleRemoveFromCart(product)}
                     backgroundColor={"var(--red-color)"}
+                    sx={{
+                      marginTop: 1,
+                      borderRadius: 2,
+                    }}
+                    isDisabled={buttons.isDisabled}
                   />
                 </Box>
-                <Box className="d-flex flex-column ms-5">
-                  <Typography variant="h4" sx={{ marginBottom: 2 }}>
+                <Box className="ms-5">
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      marginTop: {
+                        xs: 1,
+                        sm: 1,
+                        md: 0,
+                      },
+                    }}
+                  >
                     {product.name}
                   </Typography>
                   <Typography variant="h4">
