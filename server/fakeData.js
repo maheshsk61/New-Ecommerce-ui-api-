@@ -74,7 +74,7 @@ const productLists = [
   },
   {
     id: 13,
-    name: 'Pant',
+    name: 'Pants',
     category: 'Apparel',
     imageUrl: '/images/pant.jpg'
   },
@@ -99,7 +99,7 @@ const productLists = [
   {
     id: 17,
     name: 'Mouse',
-    category: 'Electronic',
+    category: 'Electronics',
     imageUrl: '/images/mouse.jpg'
   },
   {
@@ -139,7 +139,7 @@ const products = {
         processor: 'M3',
         memory: '8 GB RAM 512 GB SSD',
         storage: '256GB SSD',
-        os: 'Mac OS',
+        operatingSystem: 'Mac OS',
         display: 'A BRILLIANT DISPLAY — The 34.46 cm (13.6″) Liquid Retina display supports 1 billion colours'
       }
     },
@@ -152,7 +152,7 @@ const products = {
         processor: 'AMD Ryzen 5 5500U Hexa-Core Mobile Processor with AMD Radeon Graphics',
         memory: 'RAM - 16 GB of Dual-channel DDR4, 2 SODIMM sockets',
         storage: '512 GB SSD NVMe solid-state drive storage (expandable up to 1TB) to store your files and media',
-        os: 'Windows 11 Home',
+        operatingSystem: 'Windows 11 Home',
         display: 'Experience sharp details and crisp colors on the 15.6" Full HD display, 16:9 aspect ratio, ultra-slim design and narrow bezels.'
       }
     },
@@ -165,7 +165,7 @@ const products = {
         processor: 'Intel Celeron N4020, 1.1 GHz base speed, Up to 2.8 GHz Turbo Speed, 2 cores, 2 Threads, 4MB Cache',
         memory: '4GB SO-DIMM DDR4 2400MHz RAM, Support up to 8GB using 1x SO-DIMM Slot with',
         storage: '256GB M.2 NVMe PCIe SSD',
-        os: 'Windows 11 Home',
+        operatingSystem: 'Windows 11 Home',
         display: '35.56 cm (14 Inch) 1920 x 1080 Pixel'
       }
     },
@@ -178,7 +178,7 @@ const products = {
         processor: 'Intel Celeron N4500 processor, base speed 1.1 Ghz, max speed 2.8 Ghz, 2 Cores, 4MB L3 smart cache',
         memory: '8GB DDR4 RAM 2933 MHz, dual-channel capable',
         storage: '256GB SSD M.2 upgradable up to 512GB SSD',
-        os: 'Preloaded Windows 11 Home SL with Lifetime Validity',
+        operatingSystem: 'Preloaded Windows 11 Home SL with Lifetime Validity',
         display: '15.6" (39.62 cm) screen with (1920x1080) FHD Antiglare, 250 Nits display'
       }
     },
@@ -191,7 +191,7 @@ const products = {
         processor: 'Intel Core i3 11th Gen',
         memory: '16GB, 2x8GB, DDR4, 3200MHz',
         storage: '512GB SSD',
-        os: 'Windows 11 Home + Office H&S 2021 + 15 Months McAfee Antivirus',
+        operatingSystem: 'Windows 11 Home + Office H&S 2021 + 15 Months McAfee Antivirus',
         display: '14.0" FHD+ WVA Truelife Touch Narrow Border 250 nits'
       }
     },
@@ -204,7 +204,7 @@ const products = {
         processor: 'Intel Core i3-1215U (up to 4.4 GHz with Intel Turbo Boost Technology, 10 MB L3 cache, 6 cores, 8 threads)',
         memory: '8 GB DDR4-3200 MHz RAM (1 x 8 GB)',
         storage: '512 GB PCIe NVMe M.2 SSD',
-        os: 'Windows 11 Home Single Language |Microsoft Office Home & Student Edition 2021',
+        operatingSystem: 'Windows 11 Home Single Language |Microsoft Office Home & Student Edition 2021',
         display: '39.6 cm (15.6") diagonal, FHD (1920 x 1080), micro-edge, anti-glare, 250 nits, 45% NTSC'
       }
     }
