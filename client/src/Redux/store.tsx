@@ -4,6 +4,7 @@ import searchQueryReducer from "./slices/search-query";
 import productsReducer from "./slices/products";
 import buttonsReducer from "./slices/handle-buttons";
 import loadingReducer from "./slices/loading";
+import dialogboxReducer from "./slices/dialog-box";
 const store = configureStore({
   reducer: {
     productLists: ProductListReducer,
@@ -11,6 +12,7 @@ const store = configureStore({
     products: productsReducer,
     buttons: buttonsReducer,
     loading: loadingReducer,
+    dialogbox: dialogboxReducer,
   },
 });
 export default store;

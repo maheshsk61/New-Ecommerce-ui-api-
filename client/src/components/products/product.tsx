@@ -16,8 +16,10 @@ import {
   setIsDisabled,
 } from "../../Redux/slices/handle-buttons";
 import { setLoading } from "../../Redux/slices/loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setClickedProduct } from "../../Redux/slices/products";
+import { setImageToOpen, setIsOpen } from "../../Redux/slices/dialog-box";
+import Dialogs from "../reuse-components/dialog/dialog";
 
 const Product: React.FC<IProductsData> = (): JSX.Element => {
   const { productname } = useParams();
@@ -29,7 +31,22 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const buttons: IHandleButtons = useSelector(
     (state: RootState) => state.buttons
   );
-
+  const dialog = useSelector((state: RootState) => state.dialogbox);
+  const handleAddToCart = (product: IProductsData[] | any) => {
+    dispatch(setIsDisabled(true));
+    dispatch(setAddToCart());
+    dispatch(setCartItems(product));
+    setTimeout(() => {
+      dispatch(setIsDisabled(false));
+    }, 500);
+  };
+  const handleImage = (image: string) => {
+    dispatch(setIsOpen(true));
+    dispatch(setImageToOpen(image));
+  };
+  const closeDialog = () => {
+    dispatch(setIsOpen(false));
+  };
   useEffect(() => {
     dispatch(setLoading(true));
     const timer = setTimeout(() => {
@@ -45,15 +62,6 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [productname, dispatch, products.products]);
-
-  const handleAddToCart = (product: IProductsData[] | any) => {
-    dispatch(setIsDisabled(true));
-    dispatch(setAddToCart());
-    dispatch(setCartItems(product));
-    setTimeout(() => {
-      dispatch(setIsDisabled(false));
-    }, 500);
-  };
 
   return (
     <Box sx={{ padding: 5, marginTop: 5 }}>
@@ -110,6 +118,9 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                         src={product.img}
                         alt={product.name}
                         style={{ width: 400, height: 300 }}
+                        onClick={() => {
+                          handleImage(product.img ?? "");
+                        }}
                       />
                       <Buttons
                         value={constant.addToCart}
@@ -158,6 +169,13 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
               );
             })}
       </Grid2>
+      {dialog.isOpen && (
+        <Dialogs
+          isOpen={dialog.isOpen}
+          isClose={closeDialog}
+          image={dialog.imageToOpen}
+        />
+      )}
     </Box>
   );
 };

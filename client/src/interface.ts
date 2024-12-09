@@ -51,3 +51,8 @@ export interface IHandleButtons {
 export interface ILoading {
   loading: boolean;
 }
+export interface IDialogbox {
+  isOpen: boolean;
+  isClose: () => void;
+  image?: string;
+}
