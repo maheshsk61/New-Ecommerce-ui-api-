@@ -9,4 +9,5 @@ export const constant: Constants = {
   laptop: "Laptops",
   headphone: "Headphones",
   rupees: "₹",
+  totalPrice: "Total Price"
 };

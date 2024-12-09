@@ -10,9 +10,11 @@ const productsSlice = createSlice({
   reducers: {
     setProducts: (state, action: PayloadAction<IProductsData[]>) => {
       state.products = action.payload;
+      //console.log(state.products)
     },
     setClickedProduct: (state, action: PayloadAction<IProductsData[]>) => {
       state.clickedProduct = action.payload;
+      //console.log(state.clickedProduct)
     },
   },
 });

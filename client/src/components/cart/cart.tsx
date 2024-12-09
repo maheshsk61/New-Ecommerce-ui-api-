@@ -26,6 +26,12 @@ const Cart: React.FC = (): JSX.Element => {
       dispatch(setRemoveFromCart(product.id));
     }, 500);
   };
+  let price: number = 0;
+  cart.cartItems.map((product) => {
+    price = price + product.price;
+    return price;
+  });
+  console.log(price);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -142,6 +148,45 @@ const Cart: React.FC = (): JSX.Element => {
           );
         })
       )}
+      <Box sx={{ marginTop: 7, }}>
+        {cart.cartItems.length > 0 && (
+          <Card
+            className="p-3"
+            sx={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              background: "var(--black-color)",
+              borderRadius: 0, 
+            }}
+          >
+            <Box
+              className="d-flex"
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ padding: 1, color: "var(--white-color)" }}
+              >
+                {constant.totalPrice}:
+              </Typography>
+              <Box
+                className="d-flex"
+                sx={{
+                  backgroundColor: "#006400",
+                  padding: 1,
+                  color: "var(--white-color)",
+                  borderRadius: 1,
+                }}
+              >
+                <Typography variant="h6">{constant.rupees}</Typography>
+                <Typography variant="h6">{price}</Typography>
+              </Box>
+            </Box>
+          </Card>
+        )}
+      </Box>
     </Box>
   );
 };

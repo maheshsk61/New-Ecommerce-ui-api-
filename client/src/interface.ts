@@ -8,6 +8,7 @@ export interface Constants {
   laptop: string;
   headphone: string;
   rupees: string;
+  totalPrice: string;
 }
 export interface IProduct {
   id?: number;
