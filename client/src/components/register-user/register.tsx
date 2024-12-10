@@ -12,6 +12,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import "./register.scss"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { constant } from "../../constant";
 import Buttons from "../reuse-components/button/button";

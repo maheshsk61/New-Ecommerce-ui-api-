@@ -1,0 +1,14 @@
+@use "../../scss/colors.scss" as *;
+.text-field {
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border: 1px solid $silver-color !important; // Default state
+    }
+    &:hover fieldset {
+      border: 1px solid $silver-color !important; // Hover state
+    }
+    &.Mui-focused fieldset {
+      border: 1px solid $silver-color !important; // Focus state
+    }
+  }
+}
