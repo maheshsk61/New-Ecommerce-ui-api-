@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUser } from "../../interface";
 
-const initialState = {
+const initialState: IUser = {
   firstName: "",
   lastName: "",
   email: "",
   gender: "",
   countryCode: "",
   mobileNumber: "",
+  password: "",
   error: "",
 };
 
@@ -32,10 +34,13 @@ const userSlice = createSlice({
     setMobileNumber(state, action: PayloadAction<string>) {
       state.mobileNumber = action.payload;
     },
+    setPassword(state, action: PayloadAction<string>) {
+      state.password = action.payload;
+      //console.log(`state.password ${state.password}`)
+    },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
-    // Optionally, you can also create a reset or clear method if needed
     resetUser(state) {
       state.firstName = "";
       state.lastName = "";
@@ -43,7 +48,8 @@ const userSlice = createSlice({
       state.gender = "";
       state.countryCode = "";
       state.mobileNumber = "";
-      state.error= ""
+      state.password = "";
+      state.error = "";
     },
   },
 });
@@ -55,7 +61,8 @@ export const {
   setGender,
   setCountryCode,
   setMobileNumber,
+  setPassword,
   resetUser,
-  setError
+  setError,
 } = userSlice.actions;
 export default userSlice.reducer;

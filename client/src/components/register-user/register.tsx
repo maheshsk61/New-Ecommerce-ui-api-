@@ -12,7 +12,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import "./register.scss"
+import "./register.scss";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { constant } from "../../constant";
 import Buttons from "../reuse-components/button/button";
@@ -25,10 +25,12 @@ import {
   setEmail,
   setGender,
   setMobileNumber,
+  setPassword,
   setError,
   resetUser,
 } from "../../Redux/slices/user"; // Assuming actions are created for updating user fields
 import { user } from "../../api";
+import bcrypt from "bcryptjs";
 
 const Register: React.FC = (): JSX.Element => {
   const userDetails = useSelector((state: RootState) => state.user);
@@ -56,6 +58,9 @@ const Register: React.FC = (): JSX.Element => {
         break;
       case "mobileNumber":
         dispatch(setMobileNumber(value));
+        break;
+      case "password":
+        dispatch(setPassword(value));
         break;
       default:
         break;
@@ -90,6 +95,14 @@ const Register: React.FC = (): JSX.Element => {
       dispatch(setError("please enter mobile number"));
       return false;
     }
+    if (userDetails.password === "") {
+      dispatch(setError("please create password"));
+      return false;
+    }
+    const hashedPassword = await bcrypt.hash(userDetails.password, 10);
+    // if (userDetails.password) {
+    //   dispatch(setPassword(hashedPassword));
+    // }
     const payload = {
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
@@ -97,7 +110,9 @@ const Register: React.FC = (): JSX.Element => {
       gender: userDetails.gender,
       countryCode: userDetails.countryCode,
       mobileNumber: userDetails.mobileNumber,
+      password: hashedPassword,
     };
+    //console.log("Payload:", payload);
     try {
       const response = await user(payload);
       return response.data;
@@ -232,6 +247,22 @@ const Register: React.FC = (): JSX.Element => {
                 </InputAdornment>
               ),
             }}
+          />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <InputLabel sx={{ mr: 1 }}>
+            <i>{constant.password}</i>
+          </InputLabel>
+          <TextField
+            className="text-field"
+            type="password"
+            value={userDetails.password}
+            onChange={(e) =>
+              handleInputChange(
+                e as React.ChangeEvent<HTMLInputElement>,
+                "password"
+              )
+            }
           />
         </Box>
         <Box

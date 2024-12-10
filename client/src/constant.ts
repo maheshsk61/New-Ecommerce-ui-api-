@@ -15,8 +15,9 @@ export const constant: Constants = {
   email: "Email",
   gender: "Gender",
   mobileNumber: "Mobile",
-  male:"MALE",
-  female:"FEMALE",
-  other:"OTHER",
-  register:"Register",
+  male: "MALE",
+  female: "FEMALE",
+  other: "OTHER",
+  register: "Register",
+  password: "Password",
 };

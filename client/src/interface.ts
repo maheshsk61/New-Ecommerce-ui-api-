@@ -18,6 +18,7 @@ export interface Constants {
   female: string;
   other: string;
   register: string;
+  password: string;
 }
 export interface IProduct {
   id?: number;
@@ -65,4 +66,14 @@ export interface IDialogbox {
   isOpen: boolean;
   isClose: () => void;
   image?: string;
+}
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  countryCode: string;
+  mobileNumber: string;
+  password: string;
+  error: string;
 }
