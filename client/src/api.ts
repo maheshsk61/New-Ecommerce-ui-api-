@@ -21,3 +21,13 @@ export const productType = async (params: string) => {
     return Promise.reject(error);
   }
 };
+
+//post
+export const user = async (payload: object) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/newUser`, payload);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

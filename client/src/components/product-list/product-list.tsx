@@ -116,7 +116,7 @@ const ProductList: React.FC = (): JSX.Element => {
                 key={product.id}
               >
                 <Link
-                  to={`${product.name}s`}
+                  to={`/${product.name}s`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card sx={{ width: "250px", padding: 2 }} className="card">

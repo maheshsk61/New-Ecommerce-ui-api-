@@ -9,5 +9,14 @@ export const constant: Constants = {
   laptop: "Laptops",
   headphone: "Headphones",
   rupees: "₹",
-  totalPrice: "Total Price"
+  totalPrice: "Total Price",
+  firstName: "First Name",
+  lastName: "Last Name",
+  email: "Email",
+  gender: "Gender",
+  mobileNumber: "Mobile",
+  male:"MALE",
+  female:"FEMALE",
+  other:"OTHER",
+  register:"Register",
 };

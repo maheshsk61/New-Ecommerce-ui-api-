@@ -9,6 +9,15 @@ export interface Constants {
   headphone: string;
   rupees: string;
   totalPrice: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  mobileNumber: string;
+  male: string;
+  female: string;
+  other: string;
+  register: string;
 }
 export interface IProduct {
   id?: number;
@@ -42,6 +51,7 @@ export interface IButtons {
   backgroundColor?: string;
   sx?: object;
   isDisabled?: boolean;
+  type?: "button" | "submit";
 }
 export interface IHandleButtons {
   count: number;

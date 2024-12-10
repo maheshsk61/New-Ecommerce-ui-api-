@@ -43,7 +43,7 @@ const Navbar: React.FC = (): JSX.Element => {
         >
           <Typography variant="h6">
             <Link
-              to="/"
+              to="/home"
               className="text-white text-decoration-none"
               onClick={() => {
                 dispatch(setSearchQuery(""));
