@@ -2,8 +2,10 @@
 const express = require('express');
 const { productLists, products } = require('./fakeData');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const users = require('./userData')
 const { v4: uuid } = require('uuid')
+
 // Routes for product lists
 router.get('/productLists', (req, res) => {
     res.json({
@@ -30,12 +32,14 @@ router.get('/productType/:type', (req, res) => {
 });
 
 // Routes for users
-router.post('/newUser', (req, res) => {
-    const { firstName, lastName, email, gender, countryCode, mobileNumber } = req.body
+router.post('/newUser', async (req, res) => {
+    const { firstName, lastName, email, gender, countryCode, mobileNumber, password } = req.body
     const id = uuid()
-    const newUser = { id, firstName, lastName, email, gender, countryCode, mobileNumber };
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const newUser = { id, firstName, lastName, email, gender, countryCode, mobileNumber, password: hashedPassword };
     users.push(newUser)
-    if (!firstName | !lastName | !email | !gender | !countryCode | !mobileNumber) {
+    if (!firstName | !lastName | !email | !gender | !countryCode | !mobileNumber || !password) {
         res.status(400).json({
             message: 'All fields are required'
         })
