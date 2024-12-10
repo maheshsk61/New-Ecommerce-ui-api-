@@ -2,7 +2,8 @@
 const express = require('express');
 const { productLists, products } = require('./fakeData');
 const router = express.Router();
-
+const users = require('./userData')
+const { v4: uuid } = require('uuid')
 // Routes for product lists
 router.get('/productLists', (req, res) => {
     res.json({
@@ -29,16 +30,24 @@ router.get('/productType/:type', (req, res) => {
 });
 
 // Routes for users
-router.get('/users', (req, res) => {
-    res.json(users);
-});
-
-router.get('/users/:id', (req, res) => {
-    const user = users.find(u => u.id === parseInt(req.params.id));
-    if (!user) {
-        return res.status(404).send('User not found');
+router.post('/newUser', (req, res) => {
+    const { firstName, lastName, email, gender, countryCode, mobileNumber } = req.body
+    const id = uuid()
+    const newUser = { id, firstName, lastName, email, gender, countryCode, mobileNumber };
+    users.push(newUser)
+    if (!firstName | !lastName | !email | !gender | !countryCode | !mobileNumber) {
+        res.status(400).json({
+            message: 'All fields are required'
+        })
     }
-    res.json(user);
-});
+    res.status(201).json(
+        {
+            message: 'new user created',
+            user: { id, firstName, lastName, email, gender, countryCode, mobileNumber }
+        }
+    )
+    console.log(`user list ${JSON.stringify(users)}`)
+    //console.log(req.body)
+})
 
 module.exports = router;
