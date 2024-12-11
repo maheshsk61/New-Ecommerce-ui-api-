@@ -11,6 +11,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from "@mui/material";
 import "./register.scss";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -28,12 +29,18 @@ import {
   setPassword,
   setError,
   resetUser,
+  setSuccess,
 } from "../../Redux/slices/user"; // Assuming actions are created for updating user fields
 import { user } from "../../api";
-import bcrypt from "bcryptjs";
+import { Link } from "react-router-dom";
+import { setIsDisabled } from "../../Redux/slices/handle-buttons";
+import { IHandleButtons, IUser } from "../../interface";
 
 const Register: React.FC = (): JSX.Element => {
-  const userDetails = useSelector((state: RootState) => state.user);
+  const userDetails: IUser = useSelector((state: RootState) => state.user);
+  const button: IHandleButtons = useSelector(
+    (state: RootState) => state.buttons
+  );
   const dispatch = useDispatch<AppDispatch>();
   const handleCountry = (event: SelectChangeEvent<string>) => {
     dispatch(setCountryCode(event.target.value));
@@ -99,10 +106,6 @@ const Register: React.FC = (): JSX.Element => {
       dispatch(setError("please create password"));
       return false;
     }
-    const hashedPassword = await bcrypt.hash(userDetails.password, 10);
-    // if (userDetails.password) {
-    //   dispatch(setPassword(hashedPassword));
-    // }
     const payload = {
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
@@ -110,16 +113,25 @@ const Register: React.FC = (): JSX.Element => {
       gender: userDetails.gender,
       countryCode: userDetails.countryCode,
       mobileNumber: userDetails.mobileNumber,
-      password: hashedPassword,
+      password: userDetails.password,
     };
     //console.log("Payload:", payload);
+    dispatch(setIsDisabled(true));
     try {
       const response = await user(payload);
+      //console.log(response.status)
+      if (response.status === 201) {
+        dispatch(setSuccess(response.data.message));
+        dispatch(setIsDisabled(false));
+      }
       return response.data;
     } catch (error) {
       return Promise.reject(error);
     } finally {
       dispatch(resetUser());
+      setTimeout(() => {
+        dispatch(setSuccess(""));
+      }, 5000);
     }
   };
   const handleFormSubmission = (event: React.FormEvent) => {
@@ -144,6 +156,11 @@ const Register: React.FC = (): JSX.Element => {
         {userDetails.error && (
           <Alert severity="error" sx={{ mb: 1 }}>
             {userDetails.error}
+          </Alert>
+        )}
+        {userDetails.success && (
+          <Alert severity="success" sx={{ mb: 1 }}>
+            {userDetails.success}
           </Alert>
         )}
         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
@@ -269,14 +286,26 @@ const Register: React.FC = (): JSX.Element => {
           sx={{
             display: "flex",
             justifyContent: "center", // Center horizontally
+            mb: 1,
           }}
         >
           <Buttons
             value={constant.register}
             onClick={handleRegister}
             type="submit"
+            isDisabled={button.isDisabled}
           />
         </Box>
+        <Link
+          to="/login"
+          onClick={() => {
+            dispatch(resetUser());
+            dispatch(setSuccess(""));
+          }}
+          style={{ textDecoration: "none", textAlign: "center" }}
+        >
+          <Typography>{constant.clickToLogin}</Typography>
+        </Link>
       </Box>
     </Grid2>
   );

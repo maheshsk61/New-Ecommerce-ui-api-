@@ -16,7 +16,7 @@ import {
   setIsDisabled,
 } from "../../Redux/slices/handle-buttons";
 import { setLoading } from "../../Redux/slices/loading";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setClickedProduct } from "../../Redux/slices/products";
 import { setImageToOpen, setIsOpen } from "../../Redux/slices/dialog-box";
 import Dialogs from "../reuse-components/dialog/dialog";

@@ -20,4 +20,8 @@ export const constant: Constants = {
   other: "OTHER",
   register: "Register",
   password: "Password",
+  clickToLogin: "click to login",
+  clickToRegister: "click to register",
+  login: "Login",
+  logout: "Logout",
 };

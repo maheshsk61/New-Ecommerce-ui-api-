@@ -31,7 +31,7 @@ const Cart: React.FC = (): JSX.Element => {
     price = price + product.price;
     return price;
   });
-  console.log(price);
+  //console.log(price);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -148,7 +148,7 @@ const Cart: React.FC = (): JSX.Element => {
           );
         })
       )}
-      <Box sx={{ marginTop: 7, }}>
+      <Box sx={{ marginTop: 7 }}>
         {cart.cartItems.length > 0 && (
           <Card
             className="p-3"
@@ -158,7 +158,7 @@ const Cart: React.FC = (): JSX.Element => {
               left: 0,
               width: "100%",
               background: "var(--black-color)",
-              borderRadius: 0, 
+              borderRadius: 0,
             }}
           >
             <Box

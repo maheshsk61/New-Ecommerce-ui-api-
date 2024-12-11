@@ -26,7 +26,16 @@ export const productType = async (params: string) => {
 export const user = async (payload: object) => {
   try {
     const response = await axios.post(`${BASE_URL}/newUser`, payload);
-    return response.data;
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const userValidate = async (payload: object) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/validateUser`, payload);
+    return response;
   } catch (error) {
     return Promise.reject(error);
   }

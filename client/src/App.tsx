@@ -6,15 +6,24 @@ import Headphone from "./components/products/headphone/headphone";
 import Product from "./components/products/product";
 import Cart from "./components/cart/cart";
 import Register from "./components/register-user/register";
+import Login from "./components/login-user/login";
 
 export const routers = createBrowserRouter([
   {
-    path:"/register",
+    path: "/register",
     element: (
       <>
-        <Register/>
+        <Register />
       </>
-    )
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <>
+        <Login />
+      </>
+    ),
   },
   {
     path: "/home",

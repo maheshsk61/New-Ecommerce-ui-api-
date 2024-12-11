@@ -19,6 +19,10 @@ export interface Constants {
   other: string;
   register: string;
   password: string;
+  clickToLogin: string;
+  clickToRegister: string;
+  login: string;
+  logout: string;
 }
 export interface IProduct {
   id?: number;
@@ -75,5 +79,6 @@ export interface IUser {
   countryCode: string;
   mobileNumber: string;
   password: string;
-  error: string;
+  error: string | null;
+  success: string | null;
 }

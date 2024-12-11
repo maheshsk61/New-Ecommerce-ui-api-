@@ -9,7 +9,8 @@ const initialState: IUser = {
   countryCode: "",
   mobileNumber: "",
   password: "",
-  error: "",
+  error: null,
+  success: null,
 };
 
 const userSlice = createSlice({
@@ -38,8 +39,13 @@ const userSlice = createSlice({
       state.password = action.payload;
       //console.log(`state.password ${state.password}`)
     },
-    setError(state, action: PayloadAction<string>) {
+    setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
+      //console.log(`state.error ${state.error}`);
+    },
+    setSuccess(state, action: PayloadAction<string | null>) {
+      state.success = action.payload;
+      //console.log(`state.success ${state.success}`);
     },
     resetUser(state) {
       state.firstName = "";
@@ -49,7 +55,13 @@ const userSlice = createSlice({
       state.countryCode = "";
       state.mobileNumber = "";
       state.password = "";
-      state.error = "";
+      state.error = null;
+    },
+    setUser(state, action: PayloadAction<IUser>) {
+      const { firstName, lastName } = action.payload;
+      state.firstName = firstName;
+      console.log(state.firstName);
+      state.lastName = lastName;
     },
   },
 });
@@ -64,5 +76,7 @@ export const {
   setPassword,
   resetUser,
   setError,
+  setSuccess,
+  setUser,
 } = userSlice.actions;
 export default userSlice.reducer;

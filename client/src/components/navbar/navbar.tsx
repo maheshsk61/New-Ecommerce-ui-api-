@@ -1,13 +1,17 @@
 import {
   AppBar,
   Box,
+  IconButton,
   InputAdornment,
+  Menu,
+  MenuItem,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,9 +19,12 @@ import { AppDispatch, RootState } from "../../Redux/store";
 import { setSearchQuery } from "../../Redux/slices/search-query";
 import { IHandleButtons, ISearchQuery } from "../../interface";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { useState } from "react";
+import { resetUser } from "../../Redux/slices/user";
 
 const Navbar: React.FC = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
+  const userDetails = useSelector((state: RootState) => state.user);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = event.target.value;
     dispatch(setSearchQuery(value));
@@ -29,6 +36,21 @@ const Navbar: React.FC = (): JSX.Element => {
   const button: IHandleButtons = useSelector(
     (state: RootState) => state.buttons
   );
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+  //console.log(openMenu);
+  const handleLogout = () => {
+    dispatch(resetUser());
+    navigate("/login");
+    setAnchorEl(null);
+  };
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box>
@@ -70,6 +92,31 @@ const Navbar: React.FC = (): JSX.Element => {
               ),
             }}
           />
+          <Box>
+            <IconButton
+              sx={{ color: "var(--white-color)" }}
+              onClick={handleMenuClick}
+            >
+              <PersonIcon />
+            </IconButton>
+            <Menu
+              open={openMenu}
+              onClose={handleMenuClose}
+              anchorEl={anchorEl}
+              disableScrollLock
+            >
+              <MenuItem
+                onClick={handleLogout}
+                sx={{ color: "var(--black-color)" }}
+              >
+                {constant.logout}
+              </MenuItem>
+            </Menu>
+            <Typography component="span">
+              {userDetails.firstName && userDetails.firstName}{" "}
+              {userDetails.lastName && userDetails.lastName}
+            </Typography>
+          </Box>
           <Box>
             <Link to="/cart" style={{ color: "var(--white-color)" }}>
               <ShoppingCartCheckoutIcon />
