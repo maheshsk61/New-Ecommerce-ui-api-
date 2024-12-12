@@ -7,6 +7,7 @@ import Product from "./components/products/product";
 import Cart from "./components/cart/cart";
 import Register from "./components/register-user/register";
 import Login from "./components/login-user/login";
+import BuyNow from "./components/buy-now/buy-now";
 
 export const routers = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ export const routers = createBrowserRouter([
     element: (
       <>
         <Login />
+      </>
+    ),
+  },
+  {
+    path: "/buyNow",
+    element: (
+      <>
+        <BuyNow />
       </>
     ),
   },

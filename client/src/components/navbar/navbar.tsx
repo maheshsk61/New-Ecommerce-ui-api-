@@ -44,6 +44,7 @@ const Navbar: React.FC = (): JSX.Element => {
     dispatch(resetUser());
     navigate("/login");
     setAnchorEl(null);
+    localStorage.removeItem("user");
   };
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -113,8 +114,8 @@ const Navbar: React.FC = (): JSX.Element => {
               </MenuItem>
             </Menu>
             <Typography component="span">
-              {userDetails.firstName && userDetails.firstName}{" "}
-              {userDetails.lastName && userDetails.lastName}
+              {userDetails.user && userDetails.user.firstName}{" "}
+              {userDetails.user && userDetails.user.lastName}
             </Typography>
           </Box>
           <Box>

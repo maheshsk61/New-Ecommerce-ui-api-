@@ -47,6 +47,10 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const closeDialog = () => {
     dispatch(setIsOpen(false));
   };
+  const handleBuyNow = () => {
+    //navigate("/buyNow")
+    window.open("/buyNow", "_blank");
+  };
   useEffect(() => {
     dispatch(setLoading(true));
     const timer = setTimeout(() => {
@@ -127,6 +131,15 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                         onClick={() => handleAddToCart(product)}
                         sx={{ marginTop: 1, borderRadius: 2 }}
                         isDisabled={buttons.isDisabled}
+                      />
+                      <Buttons
+                        value={constant.buyNow}
+                        sx={{
+                          marginTop: 1,
+                          borderRadius: 2,
+                        }}
+                        backgroundColor="var(--orange-color)"
+                        onClick={handleBuyNow}
                       />
                     </Box>
                     <Box className="d-flex flex-column ms-5">

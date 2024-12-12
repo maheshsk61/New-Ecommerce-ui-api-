@@ -3,7 +3,10 @@ export interface Constants {
   searchProductsHere: string;
   noProductsFound: string;
   cartEmpty: string;
+  customerDetails: string;
   addToCart: string;
+  deliveryAddress: string;
+  buyNow: string;
   removeFromCart: string;
   laptop: string;
   headphone: string;
@@ -83,4 +86,12 @@ export interface IUser {
   password: string;
   error: string | null;
   success: string | null;
+  user: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    mobileNumber: string;
+    countryCode: string;
+    email: string;
+  };
 }

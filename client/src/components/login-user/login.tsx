@@ -18,7 +18,6 @@ import {
   setError,
   setPassword,
   setSuccess,
-  setUser,
 } from "../../Redux/slices/user";
 import { setIsDisabled } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
@@ -65,11 +64,12 @@ const Login: React.FC = (): JSX.Element => {
         dispatch(setError(""));
         dispatch(setSuccess(response.data.message));
         dispatch(setIsDisabled(false));
-        dispatch(setUser(response.data.user));
+        //dispatch(setUser(response.data.user));
         //dispatch(resetUser());
+        localStorage.setItem("user",JSON.stringify(response.data.user))
         setTimeout(() => {
           navigate("/home");
-        });
+        },1000);
       }
       //console.log(response);
       return response.data;
