@@ -30,6 +30,7 @@ import {
   setError,
   resetUser,
   setSuccess,
+  setAddress,
 } from "../../Redux/slices/user"; // Assuming actions are created for updating user fields
 import { user } from "../../api";
 import { Link } from "react-router-dom";
@@ -65,6 +66,9 @@ const Register: React.FC = (): JSX.Element => {
         break;
       case "mobileNumber":
         dispatch(setMobileNumber(value));
+        break;
+      case "address":
+        dispatch(setAddress(value));
         break;
       case "password":
         dispatch(setPassword(value));
@@ -113,6 +117,7 @@ const Register: React.FC = (): JSX.Element => {
       gender: userDetails.gender,
       countryCode: userDetails.countryCode,
       mobileNumber: userDetails.mobileNumber,
+      address: userDetails.address,
       password: userDetails.password,
     };
     //console.log("Payload:", payload);
@@ -264,6 +269,22 @@ const Register: React.FC = (): JSX.Element => {
                 </InputAdornment>
               ),
             }}
+          />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <InputLabel sx={{ mr: 1 }}>
+            <i>{constant.address}</i>
+          </InputLabel>
+          <TextField
+            className="text-field"
+            type="text"
+            value={userDetails.address}
+            onChange={(e) =>
+              handleInputChange(
+                e as React.ChangeEvent<HTMLInputElement>,
+                "address"
+              )
+            }
           />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>

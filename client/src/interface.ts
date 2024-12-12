@@ -23,6 +23,7 @@ export interface Constants {
   clickToRegister: string;
   login: string;
   logout: string;
+  address: string;
 }
 export interface IProduct {
   id?: number;
@@ -78,6 +79,7 @@ export interface IUser {
   gender: string;
   countryCode: string;
   mobileNumber: string;
+  address: string;
   password: string;
   error: string | null;
   success: string | null;

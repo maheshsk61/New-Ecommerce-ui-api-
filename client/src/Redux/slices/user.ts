@@ -8,6 +8,7 @@ const initialState: IUser = {
   gender: "",
   countryCode: "",
   mobileNumber: "",
+  address: "",
   password: "",
   error: null,
   success: null,
@@ -35,6 +36,9 @@ const userSlice = createSlice({
     setMobileNumber(state, action: PayloadAction<string>) {
       state.mobileNumber = action.payload;
     },
+    setAddress(state, action: PayloadAction<string>) {
+      state.address = action.payload;
+    },
     setPassword(state, action: PayloadAction<string>) {
       state.password = action.payload;
       //console.log(`state.password ${state.password}`)
@@ -54,14 +58,16 @@ const userSlice = createSlice({
       state.gender = "";
       state.countryCode = "";
       state.mobileNumber = "";
+      state.address = "";
       state.password = "";
       state.error = null;
     },
     setUser(state, action: PayloadAction<IUser>) {
-      const { firstName, lastName } = action.payload;
+      const { firstName, lastName, address } = action.payload;
       state.firstName = firstName;
       console.log(state.firstName);
       state.lastName = lastName;
+      state.address = address;
     },
   },
 });
@@ -78,5 +84,6 @@ export const {
   setError,
   setSuccess,
   setUser,
+  setAddress,
 } = userSlice.actions;
 export default userSlice.reducer;

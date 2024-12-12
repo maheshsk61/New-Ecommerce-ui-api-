@@ -19,6 +19,7 @@ export const constant: Constants = {
   female: "FEMALE",
   other: "OTHER",
   register: "Register",
+  address:"Address",
   password: "Password",
   clickToLogin: "click to login",
   clickToRegister: "click to register",
