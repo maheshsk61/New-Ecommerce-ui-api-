@@ -32,7 +32,7 @@ const ProductView: React.FC<IProducts> = ({
   //console.log(`sortedFilteredProducts ${JSON.stringify(sortedFilteredProducts)}`);
 
   return (
-    <Box sx={{ padding: 5, marginTop: 5 }}>
+    <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 }}}>
       <Grid2 container columnSpacing={5}>
         {loading
           ? Array.from({ length: 20 }, (_, index) => {

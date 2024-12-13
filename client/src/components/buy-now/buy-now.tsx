@@ -1,10 +1,27 @@
 import { Box, Card, Grid2, Typography } from "@mui/material";
 import { constant } from "../../constant";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../Redux/store";
+import React from "react";
+import Buttons from "../reuse-components/button/button";
+import {
+  setRemoveFromBuyNow,
+  setIsDisabled,
+} from "../../Redux/slices/handle-buttons";
 
 const BuyNow: React.FC = (): JSX.Element => {
   const userDetails = useSelector((state: RootState) => state.user);
+  const buttons = useSelector((state: RootState) => state.buttons);
+  const dispatch = useDispatch<AppDispatch>();
+  //console.log(buttons);
+  const handleRemove = (product: any) => {
+    dispatch(setIsDisabled(true));
+    setTimeout(() => {
+      dispatch(setRemoveFromBuyNow(product.id));
+      dispatch(setIsDisabled(false));
+    }, 1000);
+  };
+
   return (
     <Grid2
       sx={{
@@ -17,33 +34,76 @@ const BuyNow: React.FC = (): JSX.Element => {
         },
       }}
     >
-      <Card className="p-3" sx={{ margin: "10px 50px" }}>
+      <Card
+        className="p-3"
+        sx={{ margin: "10px 50px", width: "auto", height: "auto" }}
+        id="customer-details"
+      >
         {userDetails.user && (
-          <Box>
-            <Box id="customerDetails">
-              <Typography variant="h4">{constant.customerDetails}</Typography>
-              <Typography variant="h6">
-                {constant.firstName.toUpperCase()} :{" "}
-                {userDetails.user.firstName.toUpperCase()}
-              </Typography>
-              <Typography variant="h6">
-                {constant.lastName.toUpperCase()} :{" "}
-                {userDetails.user.lastName.toUpperCase()}
-              </Typography>
-              <Typography variant="h6">
-                {constant.mobileNumber.toUpperCase()} :{" "}
-                {userDetails.user.countryCode} {userDetails.user.mobileNumber}
-              </Typography>
-              <Typography variant="h6">
-                {constant.email} : {userDetails.user.email}
-              </Typography>
-            </Box>
-            <Box id="customerAddress">
-              <Typography variant="h4">{constant.deliveryAddress}</Typography>
-              <Typography variant="h6">{userDetails.user.address}</Typography>
-            </Box>
-          </Box>
+          <React.Fragment>
+            <Typography variant="h6">{constant.customerDetails}</Typography>
+            <Typography component="p">
+              <b>{constant.firstName.toUpperCase()}</b> :{" "}
+              {userDetails.user.firstName.toUpperCase()}
+            </Typography>
+            <Typography component="p">
+              <b>{constant.lastName.toUpperCase()}</b> :{" "}
+              {userDetails.user.lastName.toUpperCase()}
+            </Typography>
+            <Typography component="p">
+              <b>{constant.mobileNumber.toUpperCase()}</b> :{" "}
+              {userDetails.user.countryCode} {userDetails.user.mobileNumber}
+            </Typography>
+            <Typography component="p">
+              <b>{constant.email}</b> : {userDetails.user.email}
+            </Typography>
+            <Typography component="p">
+              <b>{constant.deliveryAddress.toUpperCase()}</b> :{" "}
+              {userDetails.user.address}
+            </Typography>
+          </React.Fragment>
         )}
+      </Card>
+      <Card id="order-summary" className="p-3" sx={{ margin: "10px 50px" }}>
+        <React.Fragment>
+          <Box
+            sx={{
+              background: "var(--black-color)",
+              color: "var(--white-color)",
+              padding: 1,
+              borderRadius: 1,
+              mb: 1,
+            }}
+          >
+            <Typography>{constant.orderSummary}</Typography>
+          </Box>
+          {buttons.buyNow.length > 0 &&
+            buttons.buyNow.map((product, index) => {
+              //console.log(`product ${JSON.stringify(product)}`);
+              return (
+                <Box className="d-flex flex-column" key={index} sx={{ mb: 2 }}>
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    style={{ width: 300, height: 150 }}
+                  />
+                  <Typography variant="h6">{product.name}</Typography>
+                  <Typography variant="h6">
+                    <b>
+                      {constant.rupees} {product.price}
+                    </b>
+                  </Typography>
+                  <Buttons
+                    value="Remove"
+                    onClick={() => {
+                      handleRemove(product);
+                    }}
+                    isDisabled={buttons.isDisabled}
+                  />
+                </Box>
+              );
+            })}
+        </React.Fragment>
       </Card>
     </Grid2>
   );

@@ -14,6 +14,7 @@ export interface Constants {
   totalPrice: string;
   firstName: string;
   lastName: string;
+  orderSummary: string;
   email: string;
   gender: string;
   mobileNumber: string;
@@ -66,6 +67,7 @@ export interface IHandleButtons {
   count: number;
   cartItems: any[];
   isDisabled: boolean;
+  buyNow: any[];
 }
 export interface ILoading {
   loading: boolean;

@@ -19,12 +19,13 @@ import { AppDispatch, RootState } from "../../Redux/store";
 import { setSearchQuery } from "../../Redux/slices/search-query";
 import { IHandleButtons, ISearchQuery } from "../../interface";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import { useState } from "react";
-import { resetUser } from "../../Redux/slices/user";
+import { useEffect, useState } from "react";
+import { resetUser, setUser } from "../../Redux/slices/user";
 
 const Navbar: React.FC = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const userDetails = useSelector((state: RootState) => state.user);
+  //console.log(userDetails);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = event.target.value;
     dispatch(setSearchQuery(value));
@@ -52,7 +53,10 @@ const Navbar: React.FC = (): JSX.Element => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    dispatch(setUser(storedUser));
+  }, [dispatch]);
   return (
     <Box>
       <AppBar position="fixed">

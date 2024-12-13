@@ -28,4 +28,5 @@ export const constant: Constants = {
   clickToRegister: "click to register",
   login: "Login",
   logout: "Logout",
+  orderSummary: "Order summary"
 };

@@ -4,6 +4,7 @@ const initialState: IHandleButtons = {
   count: 0,
   cartItems: [],
   isDisabled: false,
+  buyNow: [],
 };
 export const handleButtonsSlice = createSlice({
   name: "handle-buttons",
@@ -27,12 +28,36 @@ export const handleButtonsSlice = createSlice({
       state.cartItems = [...state.cartItems, action.payload];
       //console.log(`cart ${JSON.stringify(state.cartItems)}`);
     },
+    
+    setBuyNow(state, action: PayloadAction<IProductsData[]>) {
+      state.buyNow = [...state.buyNow, ...action.payload];
+      //console.log(`state.buyNow ${JSON.stringify(state.buyNow)}`)
+    },
     setIsDisabled(state, action: PayloadAction<boolean>) {
       state.isDisabled = action.payload;
       //console.log(state.isDisabled);
     },
+    setRemoveFromBuyNow(state, action: PayloadAction<number>) {
+      const productIndex = state.buyNow.findIndex((product) => {
+        //console.log(product.id, action.payload);
+        return product.id === action.payload;
+      });
+      //console.log(productIndex);
+      if (productIndex !== -1) {
+        state.isDisabled = true;
+        state.buyNow.splice(productIndex, 1);
+      }
+      // state.buyNow = action.payload;
+      // console.log(state.buyNow)
+    },
   },
 });
 export default handleButtonsSlice.reducer;
-export const { setAddToCart, setRemoveFromCart, setCartItems, setIsDisabled } =
-  handleButtonsSlice.actions;
+export const {
+  setAddToCart,
+  setRemoveFromCart,
+  setCartItems,
+  setBuyNow,
+  setRemoveFromBuyNow,
+  setIsDisabled,
+} = handleButtonsSlice.actions;

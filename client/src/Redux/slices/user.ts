@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../interface";
-const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-//console.log(`storedUser ${JSON.stringify(storedUser)}`)
 const initialState: IUser = {
   firstName: "",
   lastName: "",
@@ -13,21 +11,22 @@ const initialState: IUser = {
   password: "",
   error: null,
   success: null,
-  // user: {
-  //   firstName: '',
-  //   lastName: '',
-  //   address: '',
-  //   mobileNumber: '',
-  //   countryCode: '',
-  // },
   user: {
-    firstName: storedUser.firstName,
-    lastName: storedUser.lastName,
-    address: storedUser.address,
-    mobileNumber: storedUser.mobileNumber,
-    countryCode: storedUser.countryCode,
-    email: storedUser.email,
+    firstName: "",
+    lastName: "",
+    address: "",
+    mobileNumber: "",
+    countryCode: "",
+    email: "",
   },
+  // user: {
+  //   firstName: storedUser.firstName,
+  //   lastName: storedUser.lastName,
+  //   address: storedUser.address,
+  //   mobileNumber: storedUser.mobileNumber,
+  //   countryCode: storedUser.countryCode,
+  //   email: storedUser.email,
+  // },
 };
 
 const userSlice = createSlice({
@@ -78,15 +77,16 @@ const userSlice = createSlice({
       state.password = "";
       state.error = null;
     },
-    // setUser(state, action: PayloadAction<IUser>) {
-    //   const { firstName, lastName, address, mobileNumber, countryCode } =
-    //     action.payload;
-    //   state.user.firstName = firstName;
-    //   state.user.lastName = lastName;
-    //   state.user.address = address;
-    //   state.user.mobileNumber = mobileNumber;
-    //   state.user.countryCode = countryCode;
-    // },
+    setUser(state, action: PayloadAction<IUser>) {
+      const { firstName, lastName, address, mobileNumber, countryCode, email } =
+        action.payload;
+      state.user.firstName = firstName;
+      state.user.lastName = lastName;
+      state.user.address = address;
+      state.user.mobileNumber = mobileNumber;
+      state.user.countryCode = countryCode;
+      state.user.email = email;
+    },
   },
 });
 
@@ -102,5 +102,6 @@ export const {
   setError,
   setSuccess,
   setAddress,
+  setUser,
 } = userSlice.actions;
 export default userSlice.reducer;

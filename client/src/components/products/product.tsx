@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   IHandleButtons,
   ILoading,
@@ -12,8 +12,9 @@ import Buttons from "../reuse-components/button/button";
 import { constant } from "../../constant";
 import {
   setAddToCart,
+  setBuyNow,
   setCartItems,
-  setIsDisabled,
+  setIsDisabled
 } from "../../Redux/slices/handle-buttons";
 import { setLoading } from "../../Redux/slices/loading";
 import { useEffect } from "react";
@@ -23,6 +24,7 @@ import Dialogs from "../reuse-components/dialog/dialog";
 
 const Product: React.FC<IProductsData> = (): JSX.Element => {
   const { productname } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const products: IProducts = useSelector((state: RootState) => state.products);
   //console.log(products);
@@ -47,9 +49,14 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const closeDialog = () => {
     dispatch(setIsOpen(false));
   };
-  const handleBuyNow = () => {
-    //navigate("/buyNow")
-    window.open("/buyNow", "_blank");
+  const handleBuyNow = (clickedProduct: any[]) => {
+    dispatch(setIsDisabled(true));
+    dispatch(setBuyNow(clickedProduct));
+    setTimeout(() => {
+      dispatch(setIsDisabled(false));
+      navigate("/buyNow");
+    }, 1000);
+    // window.open("/buyNow", "_blank");
   };
   useEffect(() => {
     dispatch(setLoading(true));
@@ -68,7 +75,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   }, [productname, dispatch, products.products]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: 5 }}>
+    <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 } }}>
       <Grid2 container spacing={5}>
         {loading.loading
           ? Array.from(
@@ -139,7 +146,10 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                           borderRadius: 2,
                         }}
                         backgroundColor="var(--orange-color)"
-                        onClick={handleBuyNow}
+                        onClick={() => {
+                          handleBuyNow(products.clickedProduct ?? []);
+                        }}
+                        isDisabled={buttons.isDisabled}
                       />
                     </Box>
                     <Box className="d-flex flex-column ms-5">

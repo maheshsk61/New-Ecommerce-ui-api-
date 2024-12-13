@@ -61,15 +61,15 @@ const Login: React.FC = (): JSX.Element => {
     try {
       const response = await userValidate(payload);
       if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(setError(""));
         dispatch(setSuccess(response.data.message));
         dispatch(setIsDisabled(false));
         //dispatch(setUser(response.data.user));
         //dispatch(resetUser());
-        localStorage.setItem("user",JSON.stringify(response.data.user))
         setTimeout(() => {
           navigate("/home");
-        },1000);
+        }, 1000);
       }
       //console.log(response);
       return response.data;
