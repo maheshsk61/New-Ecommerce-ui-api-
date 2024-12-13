@@ -32,8 +32,9 @@ router.get('/productType/:type', (req, res) => {
 router.post('/newUser', async (req, res) => {
     const { firstName, lastName, email, gender, countryCode, mobileNumber, address, password } = req.body;
     const id = uuid();
+    const date = new Date()
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = { id, firstName, lastName, email, gender, countryCode, mobileNumber, address, password: hashedPassword };
+    const newUser = { id, date, firstName, lastName, email, gender, countryCode, mobileNumber, address, password: hashedPassword };
     users.push(newUser);
 
     if (!firstName || !lastName || !email || !gender || !countryCode || !mobileNumber || !address || !password) {
@@ -42,7 +43,7 @@ router.post('/newUser', async (req, res) => {
 
     res.status(201).json({
         message: 'Registration has been successful',
-        user: { id, firstName, lastName, email, gender, countryCode, mobileNumber, address }
+        user: { id, date, firstName, lastName, email, gender, countryCode, mobileNumber, address }
     });
 
     console.log(`User list: ${JSON.stringify(users)}`);
@@ -63,10 +64,12 @@ router.post('/validateUser', async (req, res) => {
     if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid password' });
     }
+    const date = new Date()
     return res.status(200).json({
         message: 'User validated successfully',
         user: {
             id: user.id,
+            date: date,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
