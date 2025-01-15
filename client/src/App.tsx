@@ -8,8 +8,13 @@ import Cart from "./components/cart/cart";
 import Register from "./components/register-user/register";
 import Login from "./components/login-user/login";
 import BuyNow from "./components/buy-now/buy-now";
+import Home from "./components/home/home";
 
 export const routers = createBrowserRouter([
+  {
+    path:"/",
+    element:<Home/>
+  },
   {
     path: "/register",
     element: (
