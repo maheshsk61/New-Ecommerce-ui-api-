@@ -2,12 +2,13 @@ import { Box, Card, Grid2, Typography } from "@mui/material";
 import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
-import React from "react";
+import React, { useEffect } from "react";
 import Buttons from "../reuse-components/button/button";
 import {
   setRemoveFromBuyNow,
   setIsDisabled,
 } from "../../Redux/slices/handle-buttons";
+import { setUser } from "../../Redux/slices/user";
 
 const BuyNow: React.FC = (): JSX.Element => {
   const userDetails = useSelector((state: RootState) => state.user);
@@ -21,7 +22,12 @@ const BuyNow: React.FC = (): JSX.Element => {
       dispatch(setIsDisabled(false));
     }, 1000);
   };
-
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    if (storedUser) {
+      dispatch(setUser(storedUser));
+    }
+  }, [dispatch]);
   return (
     <Grid2
       sx={{
@@ -36,12 +42,23 @@ const BuyNow: React.FC = (): JSX.Element => {
     >
       <Card
         className="p-3"
-        sx={{ margin: "10px 50px", width: "auto", height: "auto" }}
+        sx={{
+          margin: "10px 50px",
+          width: "auto",
+          height: "auto",
+          background: "var(--silver-color)",
+          textAlign: "center" 
+        }}
         id="customer-details"
       >
         {userDetails.user && (
           <React.Fragment>
-            <Typography variant="h6">{constant.customerDetails}</Typography>
+            <Typography
+              variant="h5"
+              sx={{ textDecoration: "underline"}}
+            >
+              {constant.customerDetails}
+            </Typography>
             <Typography component="p">
               <b>{constant.firstName.toUpperCase()}</b> :{" "}
               {userDetails.user.firstName.toUpperCase()}
@@ -55,7 +72,8 @@ const BuyNow: React.FC = (): JSX.Element => {
               {userDetails.user.countryCode} {userDetails.user.mobileNumber}
             </Typography>
             <Typography component="p">
-              <b>{constant.email}</b> : {userDetails.user.email}
+              <b>{constant.email.toUpperCase()}</b> :{" "}
+              {userDetails.user.email.toLowerCase()}
             </Typography>
             <Typography component="p">
               <b>{constant.deliveryAddress.toUpperCase()}</b> :{" "}

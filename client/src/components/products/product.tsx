@@ -58,7 +58,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
     }, 1000);
     // window.open("/buyNow", "_blank");
   };
-  useEffect(() => {
+  useEffect(() => {    
     dispatch(setLoading(true));
     const timer = setTimeout(() => {
       const product: IProductsData[] = (products.products ?? []).filter(

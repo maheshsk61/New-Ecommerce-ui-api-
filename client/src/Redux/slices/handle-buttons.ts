@@ -28,7 +28,6 @@ export const handleButtonsSlice = createSlice({
       state.cartItems = [...state.cartItems, action.payload];
       //console.log(`cart ${JSON.stringify(state.cartItems)}`);
     },
-    
     setBuyNow(state, action: PayloadAction<IProductsData[]>) {
       state.buyNow = [...state.buyNow, ...action.payload];
       //console.log(`state.buyNow ${JSON.stringify(state.buyNow)}`)

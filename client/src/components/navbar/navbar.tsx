@@ -55,7 +55,9 @@ const Navbar: React.FC = (): JSX.Element => {
   };
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    dispatch(setUser(storedUser));
+    if (storedUser) {
+      dispatch(setUser((storedUser)));
+    }
   }, [dispatch]);
   return (
     <Box>
