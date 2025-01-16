@@ -5,13 +5,16 @@ export interface Constants {
   cartEmpty: string;
   customerDetails: string;
   addToCart: string;
+  addItems: string;
   deliveryAddress: string;
+  tax: string;
+  grandTotal: string;
   buyNow: string;
   removeFromCart: string;
   laptop: string;
   headphone: string;
   rupees: string;
-  totalPrice: string;
+  subTotal: string;
   firstName: string;
   lastName: string;
   orderSummary: string;
@@ -28,6 +31,7 @@ export interface Constants {
   login: string;
   logout: string;
   address: string;
+  shopNow: string;
 }
 export interface IProduct {
   id?: number;

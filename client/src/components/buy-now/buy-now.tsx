@@ -7,6 +7,7 @@ import Buttons from "../reuse-components/button/button";
 import {
   setRemoveFromBuyNow,
   setIsDisabled,
+  setBuyNowFromLocalStoage,
 } from "../../Redux/slices/handle-buttons";
 import { setUser } from "../../Redux/slices/user";
 
@@ -28,6 +29,15 @@ const BuyNow: React.FC = (): JSX.Element => {
       dispatch(setUser(storedUser));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    const storedInBuyNow = JSON.parse(localStorage.getItem("buyNow") || "{}");
+    //console.log(storedInBuyNow)
+    if (storedInBuyNow.length > 0) {
+      dispatch(setBuyNowFromLocalStoage(storedInBuyNow));
+    }
+  }, [dispatch]);
+
   return (
     <Grid2
       sx={{
@@ -47,16 +57,13 @@ const BuyNow: React.FC = (): JSX.Element => {
           width: "auto",
           height: "auto",
           background: "var(--silver-color)",
-          textAlign: "center" 
+          textAlign: "center",
         }}
         id="customer-details"
       >
         {userDetails.user && (
           <React.Fragment>
-            <Typography
-              variant="h5"
-              sx={{ textDecoration: "underline"}}
-            >
+            <Typography variant="h5" sx={{ textDecoration: "underline" }}>
               {constant.customerDetails}
             </Typography>
             <Typography component="p">
@@ -95,7 +102,7 @@ const BuyNow: React.FC = (): JSX.Element => {
           >
             <Typography>{constant.orderSummary}</Typography>
           </Box>
-          {buttons.buyNow.length > 0 &&
+          {buttons.buyNow.length > 0 ? (
             buttons.buyNow.map((product, index) => {
               //console.log(`product ${JSON.stringify(product)}`);
               return (
@@ -120,7 +127,12 @@ const BuyNow: React.FC = (): JSX.Element => {
                   />
                 </Box>
               );
-            })}
+            })
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center" }}>
+              Please buy products to see order summary.
+            </Typography>
+          )}
         </React.Fragment>
       </Card>
     </Grid2>

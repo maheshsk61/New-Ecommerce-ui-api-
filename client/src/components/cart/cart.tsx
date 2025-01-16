@@ -5,11 +5,13 @@ import { IHandleButtons, ILoading, IProductsData } from "../../interface";
 import Buttons from "../reuse-components/button/button";
 import { constant } from "../../constant";
 import {
+  setCartItemsFromLocalStorage,
   setIsDisabled,
   setRemoveFromCart,
 } from "../../Redux/slices/handle-buttons";
 import { useEffect } from "react";
 import { setLoading } from "../../Redux/slices/loading";
+import { useNavigate } from "react-router-dom";
 
 const Cart: React.FC = (): JSX.Element => {
   const cart: IHandleButtons = useSelector((state: RootState) => state.buttons);
@@ -32,6 +34,15 @@ const Cart: React.FC = (): JSX.Element => {
     return price;
   });
   //console.log(price);
+  const taxRate: number = 0.18;
+  const taxPrice: number = Math.trunc(price * taxRate);
+  //console.log(taxPrice);
+  const totalPriceWithTax: number = Math.trunc(price + taxPrice);
+  //console.log(totalPriceWithTax);
+  const navigate = useNavigate();
+  const handleShopNow = () => {
+    navigate("/home");
+  };
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -39,6 +50,13 @@ const Cart: React.FC = (): JSX.Element => {
       dispatch(setLoading(false));
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    const storedInCart = JSON.parse(localStorage.getItem("cart") || "{}");
+    if (storedInCart.length > 0) {
+      dispatch(setCartItemsFromLocalStorage(storedInCart));
+    }
+  }, [dispatch]);
 
   return (
     <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 } }}>
@@ -62,10 +80,17 @@ const Cart: React.FC = (): JSX.Element => {
           );
         })
       ) : cart && cart.cartItems.length === 0 ? (
-        <Box className="d-flex justify-content-center w-100">
-          <Typography variant="h5">
-            <i>{constant.cartEmpty}</i>
+        <Box className="d-flex flex-column align-items-center w-100">
+          <Typography variant="h3">
+            {constant.cartEmpty}
+            <img
+              src="https://icons.iconarchive.com/icons/icons8/windows-8/512/Ecommerce-Return-Purchase-icon.png"
+              alt="cart-icon"
+              style={{ width: "50px", height: "auto", marginLeft: "10px" }}
+            />
           </Typography>
+          <Typography variant="h6">{constant.addItems}</Typography>
+          <Buttons value={constant.shopNow} onClick={handleShopNow} />
         </Box>
       ) : (
         cart.cartItems.length > 0 &&
@@ -148,42 +173,39 @@ const Cart: React.FC = (): JSX.Element => {
           );
         })
       )}
-      <Box sx={{ marginTop: 7 }}>
+      <Box sx={{ textAlign: "left", marginTop: 2 }}>
         {cart.cartItems.length > 0 && (
           <Card
-            className="p-3"
             sx={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              background: "var(--black-color)",
-              borderRadius: 0,
+              padding: 2,
+              width: "fit-content",
+              marginLeft: "auto",
+              background: "var(--silver-color)",
             }}
           >
-            <Box
-              className="d-flex"
-              sx={{ justifyContent: "space-between", alignItems: "center" }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ padding: 1, color: "var(--white-color)" }}
-              >
-                {constant.totalPrice}:
-              </Typography>
-              <Box
-                className="d-flex"
-                sx={{
-                  backgroundColor: "#006400",
-                  padding: 1,
-                  color: "var(--white-color)",
-                  borderRadius: 1,
-                }}
-              >
-                <Typography variant="h6">{constant.rupees}</Typography>
-                <Typography variant="h6">{price}</Typography>
-              </Box>
-            </Box>
+            <table>
+              <tr>
+                <th>{constant.subTotal}</th>
+                <td>
+                  {constant.rupees} {price}
+                </td>
+              </tr>
+              <tr>
+                <th>{constant.tax}</th>
+                <td>
+                  {constant.rupees} {taxPrice}
+                </td>
+              </tr>
+              <hr />
+              <tr>
+                <th>{constant.grandTotal}</th>
+                <td>
+                  <b>
+                    {constant.rupees} {totalPriceWithTax}
+                  </b>
+                </td>
+              </tr>
+            </table>
           </Card>
         )}
       </Box>
