@@ -67,8 +67,8 @@ const ProductList: React.FC = (): JSX.Element => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 } }}>
-      <Grid2 container columnSpacing={5}>
+    <Box sx={{ padding: 5, marginTop: { xs: 0 } }}>
+      <Grid2 container columnSpacing={2} rowSpacing={2}>
         {loading.loading ? (
           Array.from({ length: lists.length || 21 }, (_, index) => {
             return (

@@ -59,7 +59,7 @@ const Cart: React.FC = (): JSX.Element => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 } }}>
+    <Box sx={{ padding: 5, marginTop: { xs: 0 } }}>
       {loading.loading ? (
         Array.from({ length: cart.cartItems.length ?? 0 }, (_, index) => {
           return (

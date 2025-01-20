@@ -12,8 +12,8 @@ import Home from "./components/home/home";
 
 export const routers = createBrowserRouter([
   {
-    path:"/",
-    element:<Home/>
+    path: "/",
+    element: <Home />,
   },
   {
     path: "/register",
@@ -35,6 +35,7 @@ export const routers = createBrowserRouter([
     path: "/buyNow",
     element: (
       <>
+        <Navbar />
         <BuyNow />
       </>
     ),

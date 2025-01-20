@@ -75,7 +75,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   }, [productname, dispatch, products.products]);
 
   return (
-    <Box sx={{ padding: 5, marginTop: { xs: 10, sm: 10, md: 5 } }}>
+    <Box sx={{ padding: 5, marginTop: { xs: 0 } }}>
       <Grid2 container spacing={5}>
         {loading.loading
           ? Array.from(

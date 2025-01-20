@@ -61,7 +61,7 @@ const Navbar: React.FC = (): JSX.Element => {
   }, [dispatch]);
   return (
     <Box>
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar
           className="navbar"
           sx={{
