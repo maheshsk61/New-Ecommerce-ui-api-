@@ -14,15 +14,20 @@ import {
   setAddToCart,
   setBuyNow,
   setCartItems,
-  setIsDisabled
 } from "../../Redux/slices/handle-buttons";
 import { setLoading } from "../../Redux/slices/loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setClickedProduct } from "../../Redux/slices/products";
 import { setImageToOpen, setIsOpen } from "../../Redux/slices/dialog-box";
 import Dialogs from "../reuse-components/dialog/dialog";
 
 const Product: React.FC<IProductsData> = (): JSX.Element => {
+  const [disabledButtonAddToCart, setDisabledButtonAddToCart] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [disabledButtonBuyNow, setDisabledButtonBuyNow] = useState<{
+    [key: string]: boolean;
+  }>({});
   const { productname } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -30,18 +35,17 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   //console.log(products);
   const loading: ILoading = useSelector((state: RootState) => state.loading);
   //console.log(`loading ${JSON.stringify(loading)}`);
-  const buttons: IHandleButtons = useSelector(
-    (state: RootState) => state.buttons
-  );
   const dialog = useSelector((state: RootState) => state.dialogbox);
+
   const handleAddToCart = (product: IProductsData[] | any) => {
-    dispatch(setIsDisabled(true));
+    setDisabledButtonAddToCart({ [product.id]: true });
     dispatch(setAddToCart());
     dispatch(setCartItems(product));
     setTimeout(() => {
-      dispatch(setIsDisabled(false));
+      setDisabledButtonAddToCart({ [product.id]: false });
     }, 500);
   };
+
   const handleImage = (image: string) => {
     dispatch(setIsOpen(true));
     dispatch(setImageToOpen(image));
@@ -49,16 +53,34 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const closeDialog = () => {
     dispatch(setIsOpen(false));
   };
-  const handleBuyNow = (clickedProduct: any[]) => {
-    dispatch(setIsDisabled(true));
+  const handleBuyNow = (clickedProduct: IProductsData[]) => {
+    // Create a copy of the current state and disable the button for each clicked product
+    const updatedDisabledButton = { ...disabledButtonBuyNow };
+    //console.log(updatedDisabledButton)
+    // Disable the Buy Now button for each product
+    clickedProduct.forEach((product: IProductsData) => {
+      if (product.id) {
+        // Check if 'id' is defined
+        updatedDisabledButton[product.id] = true;
+      }
+    });
+    setDisabledButtonBuyNow(updatedDisabledButton);
     dispatch(setBuyNow(clickedProduct));
     setTimeout(() => {
-      dispatch(setIsDisabled(false));
+      const resetDisabledButton = { ...updatedDisabledButton };
+      //console.log(resetDisabledButton)
+      clickedProduct.forEach((product: IProductsData) => {
+        if (product.id) {
+          // Ensure 'id' is defined before accessing it
+          resetDisabledButton[product.id] = false;
+        }
+      });
+      setDisabledButtonBuyNow(resetDisabledButton);
       navigate("/buyNow");
     }, 1000);
-    // window.open("/buyNow", "_blank");
   };
-  useEffect(() => {    
+
+  useEffect(() => {
     dispatch(setLoading(true));
     const timer = setTimeout(() => {
       const product: IProductsData[] = (products.products ?? []).filter(
@@ -137,7 +159,9 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                         value={constant.addToCart}
                         onClick={() => handleAddToCart(product)}
                         sx={{ marginTop: 1, borderRadius: 2 }}
-                        isDisabled={buttons.isDisabled}
+                        isDisabled={
+                          disabledButtonAddToCart[product.id!] ?? false
+                        }
                       />
                       <Buttons
                         value={constant.buyNow}
@@ -149,7 +173,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                         onClick={() => {
                           handleBuyNow(products.clickedProduct ?? []);
                         }}
-                        isDisabled={buttons.isDisabled}
+                        isDisabled={disabledButtonBuyNow[product.id!] ?? false}
                       />
                     </Box>
                     <Box className="d-flex flex-column ms-5">

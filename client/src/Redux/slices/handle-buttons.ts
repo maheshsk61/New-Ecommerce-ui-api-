@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IHandleButtons, IProductsData } from "../../interface";
 const initialState: IHandleButtons = {
-  count: 0,
+  count: Number(localStorage.getItem("count")),
   cartItems: [],
-  isDisabled: false,
+  isDisabledForCredentials:false,
   buyNow: [],
 };
 export const handleButtonsSlice = createSlice({
@@ -12,6 +12,7 @@ export const handleButtonsSlice = createSlice({
   reducers: {
     setAddToCart(state) {
       state.count = state.count + 1;
+      localStorage.setItem("count", state.count.toString());
     },
     setRemoveFromCart(state, action: PayloadAction<number>) {
       state.count = state.count - 1;
@@ -44,8 +45,8 @@ export const handleButtonsSlice = createSlice({
     setBuyNowFromLocalStoage(state, action: PayloadAction<IProductsData[]>) {
       state.buyNow = action.payload;
     },
-    setIsDisabled(state, action: PayloadAction<boolean>) {
-      state.isDisabled = action.payload;
+    setIsDisabledForCredentials(state, action: PayloadAction<boolean>) {
+      state.isDisabledForCredentials = action.payload;
       //console.log(state.isDisabled);
     },
     setRemoveFromBuyNow(state, action: PayloadAction<number>) {
@@ -55,7 +56,7 @@ export const handleButtonsSlice = createSlice({
       });
       //console.log(productIndex);
       if (productIndex !== -1) {
-        state.isDisabled = true;
+        //state.isDisabled = true;
         state.buyNow.splice(productIndex, 1);
         localStorage.setItem("buyNow", JSON.stringify(state.buyNow));
       }
@@ -70,8 +71,8 @@ export const {
   setRemoveFromCart,
   setCartItems,
   setBuyNow,
+  setIsDisabledForCredentials,
   setRemoveFromBuyNow,
-  setIsDisabled,
   setBuyNowFromLocalStoage,
   setCartItemsFromLocalStorage,
 } = handleButtonsSlice.actions;

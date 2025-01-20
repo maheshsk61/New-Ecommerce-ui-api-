@@ -2,25 +2,27 @@ import { Box, Card, Grid2, Typography } from "@mui/material";
 import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Buttons from "../reuse-components/button/button";
 import {
   setRemoveFromBuyNow,
-  setIsDisabled,
   setBuyNowFromLocalStoage,
 } from "../../Redux/slices/handle-buttons";
 import { setUser } from "../../Redux/slices/user";
 
 const BuyNow: React.FC = (): JSX.Element => {
+  const [disabledButtonBuyNow, setDisabledButtonBuyNow] = useState<{
+    [key: string]: boolean;
+  }>({});
   const userDetails = useSelector((state: RootState) => state.user);
   const buttons = useSelector((state: RootState) => state.buttons);
   const dispatch = useDispatch<AppDispatch>();
   //console.log(buttons);
-  const handleRemove = (product: any) => {
-    dispatch(setIsDisabled(true));
+  const handleRemove = (product: any, index: number) => {
+    setDisabledButtonBuyNow({ [index]: true });
     setTimeout(() => {
       dispatch(setRemoveFromBuyNow(product.id));
-      dispatch(setIsDisabled(false));
+      setDisabledButtonBuyNow({ [index]: false });
     }, 1000);
   };
   useEffect(() => {
@@ -121,9 +123,9 @@ const BuyNow: React.FC = (): JSX.Element => {
                   <Buttons
                     value="Remove"
                     onClick={() => {
-                      handleRemove(product);
+                      handleRemove(product, index);
                     }}
-                    isDisabled={buttons.isDisabled}
+                    isDisabled={disabledButtonBuyNow[index]}
                   />
                 </Box>
               );

@@ -59,6 +59,7 @@ const Navbar: React.FC = (): JSX.Element => {
       dispatch(setUser((storedUser)));
     }
   }, [dispatch]);
+
   return (
     <Box>
       <AppBar position="static">

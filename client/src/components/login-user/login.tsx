@@ -19,7 +19,7 @@ import {
   setPassword,
   setSuccess,
 } from "../../Redux/slices/user";
-import { setIsDisabled } from "../../Redux/slices/handle-buttons";
+import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
 
 const Login: React.FC = (): JSX.Element => {
@@ -57,14 +57,14 @@ const Login: React.FC = (): JSX.Element => {
       email: userDetails.email,
       password: userDetails.password,
     };
-    dispatch(setIsDisabled(true));
+    dispatch(setIsDisabledForCredentials(true));
     try {
       const response = await userValidate(payload);
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(setError(""));
         dispatch(setSuccess(response.data.message));
-        dispatch(setIsDisabled(false));
+        dispatch(setIsDisabledForCredentials(false));
         //dispatch(setUser(response.data.user));
         //dispatch(resetUser());
         setTimeout(() => {
@@ -81,7 +81,7 @@ const Login: React.FC = (): JSX.Element => {
         //console.log(error.response.data.message);
         dispatch(setError("An unexpected error occurred"));
       }
-      dispatch(setIsDisabled(false));
+      dispatch(setIsDisabledForCredentials(false));
       return Promise.reject(error);
     } finally {
       setTimeout(() => {
@@ -159,7 +159,7 @@ const Login: React.FC = (): JSX.Element => {
             value={constant.login}
             onClick={handleLogin}
             type="submit"
-            isDisabled={button.isDisabled}
+            isDisabled={button.isDisabledForCredentials}
           />
         </Box>
         <Link

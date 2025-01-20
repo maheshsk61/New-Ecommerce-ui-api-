@@ -34,7 +34,7 @@ import {
 } from "../../Redux/slices/user"; // Assuming actions are created for updating user fields
 import { user } from "../../api";
 import { Link } from "react-router-dom";
-import { setIsDisabled } from "../../Redux/slices/handle-buttons";
+import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
 
 const Register: React.FC = (): JSX.Element => {
@@ -121,13 +121,13 @@ const Register: React.FC = (): JSX.Element => {
       password: userDetails.password,
     };
     //console.log("Payload:", payload);
-    dispatch(setIsDisabled(true));
+    dispatch(setIsDisabledForCredentials(true));
     try {
       const response = await user(payload);
       //console.log(response.status)
       if (response.status === 201) {
         dispatch(setSuccess(response.data.message));
-        dispatch(setIsDisabled(false));
+        dispatch(setIsDisabledForCredentials(false));
       }
       return response.data;
     } catch (error) {
@@ -314,7 +314,7 @@ const Register: React.FC = (): JSX.Element => {
             value={constant.register}
             onClick={handleRegister}
             type="submit"
-            isDisabled={button.isDisabled}
+            isDisabled={button.isDisabledForCredentials}
           />
         </Box>
         <Link

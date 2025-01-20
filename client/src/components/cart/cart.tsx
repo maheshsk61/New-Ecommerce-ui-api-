@@ -6,25 +6,26 @@ import Buttons from "../reuse-components/button/button";
 import { constant } from "../../constant";
 import {
   setCartItemsFromLocalStorage,
-  setIsDisabled,
   setRemoveFromCart,
 } from "../../Redux/slices/handle-buttons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setLoading } from "../../Redux/slices/loading";
 import { useNavigate } from "react-router-dom";
 
 const Cart: React.FC = (): JSX.Element => {
+  const [disabledButtonRemoveFromCart, setDisabledButtonRemoveFromCart] =
+    useState<{ [key: string]: boolean }>({});
   const cart: IHandleButtons = useSelector((state: RootState) => state.buttons);
   //console.log(cart);
   const loading: ILoading = useSelector((state: RootState) => state.loading);
-  const buttons: IHandleButtons = useSelector(
-    (state: RootState) => state.buttons
-  );
   const dispatch = useDispatch<AppDispatch>();
-  const handleRemoveFromCart = (product: IProductsData | any) => {
-    dispatch(setIsDisabled(true));
+  const handleRemoveFromCart = (
+    product: IProductsData | any,
+    index: number
+  ) => {
+    setDisabledButtonRemoveFromCart({ [index]: true });
     setTimeout(() => {
-      dispatch(setIsDisabled(false));
+      setDisabledButtonRemoveFromCart({ [index]: false });
       dispatch(setRemoveFromCart(product.id));
     }, 500);
   };
@@ -126,13 +127,13 @@ const Cart: React.FC = (): JSX.Element => {
                   />
                   <Buttons
                     value={constant.removeFromCart}
-                    onClick={() => handleRemoveFromCart(product)}
+                    onClick={() => handleRemoveFromCart(product, index)}
                     backgroundColor={"var(--red-color)"}
                     sx={{
                       marginTop: 1,
                       borderRadius: 2,
                     }}
-                    isDisabled={buttons.isDisabled}
+                    isDisabled={disabledButtonRemoveFromCart[index]}
                   />
                 </Box>
                 <Box className="ms-5">

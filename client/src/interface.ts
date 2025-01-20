@@ -70,7 +70,7 @@ export interface IButtons {
 export interface IHandleButtons {
   count: number;
   cartItems: any[];
-  isDisabled: boolean;
+  isDisabledForCredentials: boolean;
   buyNow: any[];
 }
 export interface ILoading {
