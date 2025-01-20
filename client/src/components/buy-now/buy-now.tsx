@@ -31,6 +31,7 @@ const BuyNow: React.FC = (): JSX.Element => {
     setTimeout(() => {
       dispatch(setRemoveFromBuyNow(product.id));
       setDisabledButtonBuyNow({ [index]: false });
+      window.location.reload();
     }, 1000);
     if (buttons.buyNow.length === 0) {
       dispatch(resetAmounts());
