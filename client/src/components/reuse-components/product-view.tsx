@@ -33,7 +33,7 @@ const ProductView: React.FC<IProducts> = ({
 
   return (
     <Box sx={{ padding: 5, marginTop: { xs: 0 }}}>
-      <Grid2 container columnSpacing={2} rowSpacing={2}>
+      <Grid2 container columnSpacing={2} rowSpacing={2} justifyContent="center">
         {loading
           ? Array.from({ length: 20 }, (_, index) => {
               return (
