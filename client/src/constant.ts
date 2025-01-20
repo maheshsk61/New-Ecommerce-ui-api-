@@ -2,6 +2,8 @@ import { Constants } from "./interface";
 export const constant: Constants = {
   shopBazaar: "shopBazaar",
   customerDetails: "Customer Details",
+  clickToProceed: "Click to proceed",
+  remove: "Remove",
   grandTotal: "Grandtotal",
   buyNow: "Buy Now",
   deliveryAddress: "Delivery Address",

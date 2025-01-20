@@ -9,12 +9,20 @@ import {
   setBuyNowFromLocalStoage,
 } from "../../Redux/slices/handle-buttons";
 import { setUser } from "../../Redux/slices/user";
+import PriceTable from "../reuse-components/price-table/price-table";
+import {
+  resetAmounts,
+  setGrandTotal,
+  setSubTotal,
+  setTaxPrice,
+} from "../../Redux/slices/amount";
 
 const BuyNow: React.FC = (): JSX.Element => {
   const [disabledButtonBuyNow, setDisabledButtonBuyNow] = useState<{
     [key: string]: boolean;
   }>({});
   const userDetails = useSelector((state: RootState) => state.user);
+  const amount = useSelector((state: RootState) => state.amount);
   const buttons = useSelector((state: RootState) => state.buttons);
   const dispatch = useDispatch<AppDispatch>();
   //console.log(buttons);
@@ -24,6 +32,9 @@ const BuyNow: React.FC = (): JSX.Element => {
       dispatch(setRemoveFromBuyNow(product.id));
       setDisabledButtonBuyNow({ [index]: false });
     }, 1000);
+    if (buttons.buyNow.length === 0) {
+      dispatch(resetAmounts());
+    }
   };
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -38,6 +49,14 @@ const BuyNow: React.FC = (): JSX.Element => {
     if (storedInBuyNow.length > 0) {
       dispatch(setBuyNowFromLocalStoage(storedInBuyNow));
     }
+    let subTotal = 0;
+    storedInBuyNow.forEach((product: any) => {
+      subTotal += product.price;
+    });
+    let taxPrice = Math.trunc(subTotal * amount.taxPercentage);
+    dispatch(setSubTotal(subTotal));
+    dispatch(setTaxPrice(taxPrice));
+    dispatch(setGrandTotal(subTotal + taxPrice));
   }, [dispatch]);
 
   return (
@@ -121,7 +140,8 @@ const BuyNow: React.FC = (): JSX.Element => {
                     </b>
                   </Typography>
                   <Buttons
-                    value="Remove"
+                    value={constant.remove}
+                    backgroundColor="var(--red-color)"
                     onClick={() => {
                       handleRemove(product, index);
                     }}
@@ -135,6 +155,15 @@ const BuyNow: React.FC = (): JSX.Element => {
               Please buy products to see order summary.
             </Typography>
           )}
+          <Box sx={{ textAlign: "left", marginTop: 2 }}>
+            {buttons.buyNow.length > 0 && (
+              <PriceTable
+                subTotal={amount.subTotal}
+                taxPrice={amount.taxPrice}
+                grandTotal={amount.grandTotal}
+              />
+            )}
+          </Box>
         </React.Fragment>
       </Card>
     </Grid2>

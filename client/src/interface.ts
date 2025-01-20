@@ -6,6 +6,8 @@ export interface Constants {
   customerDetails: string;
   addToCart: string;
   addItems: string;
+  remove: string;
+  clickToProceed: string;
   deliveryAddress: string;
   tax: string;
   grandTotal: string;
@@ -100,4 +102,10 @@ export interface IUser {
     countryCode: string;
     email: string;
   };
+}
+export interface IAmount {
+  subTotal: number;
+  taxPercentage: number;
+  taxPrice: number;
+  grandTotal: number;
 }

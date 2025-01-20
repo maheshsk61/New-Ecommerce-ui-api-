@@ -7,10 +7,12 @@ import { constant } from "../../constant";
 import {
   setCartItemsFromLocalStorage,
   setRemoveFromCart,
+  setShiftProductsFromCartToBuyNow,
 } from "../../Redux/slices/handle-buttons";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { setLoading } from "../../Redux/slices/loading";
 import { useNavigate } from "react-router-dom";
+import PriceTable from "../reuse-components/price-table/price-table";
 
 const Cart: React.FC = (): JSX.Element => {
   const [disabledButtonRemoveFromCart, setDisabledButtonRemoveFromCart] =
@@ -28,6 +30,10 @@ const Cart: React.FC = (): JSX.Element => {
       setDisabledButtonRemoveFromCart({ [index]: false });
       dispatch(setRemoveFromCart(product.id));
     }, 500);
+  };
+  const shiftProductsFromCartToBuyNow = () => {
+    dispatch(setShiftProductsFromCartToBuyNow());
+    navigate("/buyNow")
   };
   let price: number = 0;
   cart.cartItems.map((product) => {
@@ -176,40 +182,18 @@ const Cart: React.FC = (): JSX.Element => {
       )}
       <Box sx={{ textAlign: "left", marginTop: 2 }}>
         {cart.cartItems.length > 0 && (
-          <Card
-            sx={{
-              padding: 2,
-              width: "fit-content",
-              marginLeft: "auto",
-              background: "var(--silver-color)",
-            }}
-          >
-            <table>
-              <tr>
-                <th>{constant.subTotal}</th>
-                <td>
-                  {constant.rupees} {price}
-                </td>
-              </tr>
-              <tr>
-                <th>{constant.tax}</th>
-                <td>
-                  {constant.rupees} {taxPrice}
-                </td>
-              </tr>
-              <hr />
-              <tr>
-                <th>{constant.grandTotal}</th>
-                <td>
-                  <b>
-                    {constant.rupees} {totalPriceWithTax}
-                  </b>
-                </td>
-              </tr>
-            </table>
-          </Card>
+          <PriceTable subTotal={price} taxPrice={taxPrice} grandTotal={totalPriceWithTax}/>
         )}
       </Box>
+      {cart.cartItems.length > 0 && (
+        <Box textAlign="center">
+          <Buttons
+            value={constant.clickToProceed}
+            onClick={shiftProductsFromCartToBuyNow}
+            backgroundColor="var(--green-color)"
+          />
+        </Box>
+      )}
     </Box>
   );
 };

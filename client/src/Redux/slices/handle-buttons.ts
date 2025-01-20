@@ -3,7 +3,7 @@ import { IHandleButtons, IProductsData } from "../../interface";
 const initialState: IHandleButtons = {
   count: Number(localStorage.getItem("count")),
   cartItems: [],
-  isDisabledForCredentials:false,
+  isDisabledForCredentials: false,
   buyNow: [],
 };
 export const handleButtonsSlice = createSlice({
@@ -63,6 +63,18 @@ export const handleButtonsSlice = createSlice({
       // state.buyNow = action.payload;
       // console.log(state.buyNow)
     },
+    setShiftProductsFromCartToBuyNow(state) {
+      if (state.buyNow.length > 0) {
+        state.buyNow = [...state.buyNow, ...state.cartItems];
+      } else {
+        state.buyNow = [...state.cartItems];
+      }
+      state.cartItems = [];
+      state.count = 0;
+      localStorage.setItem("cart", JSON.stringify(state.cartItems));
+      localStorage.setItem("buyNow", JSON.stringify(state.buyNow));
+      localStorage.setItem("count", state.count.toString());
+    },
   },
 });
 export default handleButtonsSlice.reducer;
@@ -75,4 +87,5 @@ export const {
   setRemoveFromBuyNow,
   setBuyNowFromLocalStoage,
   setCartItemsFromLocalStorage,
+  setShiftProductsFromCartToBuyNow,
 } = handleButtonsSlice.actions;

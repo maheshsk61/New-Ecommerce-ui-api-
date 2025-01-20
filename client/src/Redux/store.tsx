@@ -6,6 +6,7 @@ import buttonsReducer from "./slices/handle-buttons";
 import loadingReducer from "./slices/loading";
 import dialogboxReducer from "./slices/dialog-box";
 import userReducer from "./slices/user"
+import amountReducer from "./slices/amount"
 const store = configureStore({
   reducer: {
     productLists: ProductListReducer,
@@ -15,6 +16,7 @@ const store = configureStore({
     loading: loadingReducer,
     dialogbox: dialogboxReducer,
     user: userReducer,
+    amount: amountReducer
   },
 });
 export default store;
