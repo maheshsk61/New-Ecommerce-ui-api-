@@ -8,6 +8,7 @@ import { setIsOpen } from "../../Redux/slices/dialog-box";
 const Order: React.FC = (): JSX.Element => {
   const [shipmentId, setShipmentId] = useState<string>("");
   const dialog = useSelector((state: RootState) => state.dialogbox);
+  const userDetails = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const closeDialog = () => {
     dispatch(setIsOpen(false));
@@ -28,7 +29,9 @@ const Order: React.FC = (): JSX.Element => {
         <Dialogs
           isOpen={dialog.isOpen}
           isClose={closeDialog}
-          orderText={constant.thankYouForYourOrder}
+          orderText={`${constant.thankYouForYourOrder}${" "}${
+            userDetails.user && userDetails.user.firstName
+          }${userDetails.user && userDetails.user.lastName}`}
           text={`Your order is confirmed and being prepared for shipment. Your Shipment ID is ${shipmentId}.`}
         />
       )}
