@@ -7,6 +7,8 @@ export interface Constants {
   addToCart: string;
   addItems: string;
   remove: string;
+  placeOrder: string;
+  thankYouForYourOrder: string;
   clickToProceed: string;
   deliveryAddress: string;
   tax: string;
@@ -80,8 +82,10 @@ export interface ILoading {
 }
 export interface IDialogbox {
   isOpen: boolean;
-  isClose: () => void;
+  isClose?: () => void;
   image?: string;
+  orderText?: string;
+  text?: string;
 }
 export interface IUser {
   firstName: string;

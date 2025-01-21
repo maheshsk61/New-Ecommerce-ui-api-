@@ -2,7 +2,7 @@ import { Box, Card, Grid2, Typography } from "@mui/material";
 import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Buttons from "../reuse-components/button/button";
 import {
   setRemoveFromBuyNow,
@@ -16,8 +16,10 @@ import {
   setSubTotal,
   setTaxPrice,
 } from "../../Redux/slices/amount";
+import { useNavigate } from "react-router-dom";
 
 const BuyNow: React.FC = (): JSX.Element => {
+  const [shipmentId, setShipmentId] = useState<string>("");
   const [disabledButtonBuyNow, setDisabledButtonBuyNow] = useState<{
     [key: string]: boolean;
   }>({});
@@ -25,7 +27,9 @@ const BuyNow: React.FC = (): JSX.Element => {
   const amount = useSelector((state: RootState) => state.amount);
   const buttons = useSelector((state: RootState) => state.buttons);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   //console.log(buttons);
+
   const handleRemove = (product: any, index: number) => {
     setDisabledButtonBuyNow({ [index]: true });
     setTimeout(() => {
@@ -36,6 +40,25 @@ const BuyNow: React.FC = (): JSX.Element => {
     if (buttons.buyNow.length === 0) {
       dispatch(resetAmounts());
     }
+  };
+  const generateShipmentId = () => {
+    var generateId = "0";
+    for (let i = 0; i < 9; i++) {
+      generateId = generateId + Math.trunc(Math.random() * 10);
+    }
+    //console.log(generateId);
+    setShipmentId(generateId);
+  };
+  useEffect(() => {
+    if (shipmentId) {
+      localStorage.setItem("shipmentId", shipmentId); // Update localStorage when shipmentId changes
+    }
+  }, [shipmentId]);
+  const handlePayment = () => {
+    generateShipmentId();
+    setTimeout(() => {
+      navigate("/order");
+    }, 100);
   };
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -84,7 +107,7 @@ const BuyNow: React.FC = (): JSX.Element => {
         id="customer-details"
       >
         {userDetails.user && (
-          <React.Fragment>
+          <Fragment>
             <Typography variant="h5" sx={{ textDecoration: "underline" }}>
               {constant.customerDetails}
             </Typography>
@@ -108,7 +131,7 @@ const BuyNow: React.FC = (): JSX.Element => {
               <b>{constant.deliveryAddress.toUpperCase()}</b> :{" "}
               {userDetails.user.address}
             </Typography>
-          </React.Fragment>
+          </Fragment>
         )}
       </Card>
       <Card id="order-summary" className="p-3" sx={{ margin: "10px 50px" }}>
@@ -158,11 +181,25 @@ const BuyNow: React.FC = (): JSX.Element => {
           )}
           <Box sx={{ textAlign: "left", marginTop: 2 }}>
             {buttons.buyNow.length > 0 && (
-              <PriceTable
-                subTotal={amount.subTotal}
-                taxPrice={amount.taxPrice}
-                grandTotal={amount.grandTotal}
-              />
+              <Fragment>
+                <PriceTable
+                  subTotal={amount.subTotal}
+                  taxPrice={amount.taxPrice}
+                  grandTotal={amount.grandTotal}
+                />
+                <Typography
+                  sx={{ marginTop: 2, textAlign: "center", cursor: "pointer" }}
+                  onClick={handlePayment}
+                >
+                  {constant.placeOrder}
+                </Typography>
+                {/* <Buttons
+                    value={constant.clickToPay}
+                    onClick={() => {}}
+                    backgroundColor="var(--white-color)"
+                    sx={{ marginTop: 2 }}
+                  /> */}
+              </Fragment>
             )}
           </Box>
         </React.Fragment>

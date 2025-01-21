@@ -9,6 +9,7 @@ import Register from "./components/register-user/register";
 import Login from "./components/login-user/login";
 import BuyNow from "./components/buy-now/buy-now";
 import Home from "./components/home/home";
+import Order from "./components/order/order";
 
 export const routers = createBrowserRouter([
   {
@@ -82,6 +83,15 @@ export const routers = createBrowserRouter([
       <>
         <Navbar />
         <Cart />
+      </>
+    ),
+  },
+  {
+    path: "/order",
+    element: (
+      <>
+        <Navbar />
+        <Order />
       </>
     ),
   },

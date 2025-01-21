@@ -191,6 +191,7 @@ const Cart: React.FC = (): JSX.Element => {
             value={constant.clickToProceed}
             onClick={shiftProductsFromCartToBuyNow}
             backgroundColor="var(--green-color)"
+            sx={{ marginTop: 2 }}
           />
         </Box>
       )}

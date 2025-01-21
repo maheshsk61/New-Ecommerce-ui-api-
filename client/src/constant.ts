@@ -5,6 +5,7 @@ export const constant: Constants = {
   clickToProceed: "Click to proceed",
   remove: "Remove",
   grandTotal: "Grandtotal",
+  placeOrder: "Click to place order",
   buyNow: "Buy Now",
   deliveryAddress: "Delivery Address",
   searchProductsHere: "search products here",
@@ -35,4 +36,5 @@ export const constant: Constants = {
   logout: "Logout",
   orderSummary: "Order summary",
   shopNow: "Shop Now",
+  thankYouForYourOrder: "Thank You for your order!"
 };
