@@ -9,7 +9,6 @@ import {
 import { constant } from "../../constant";
 import { Link, useNavigate } from "react-router-dom";
 import Buttons from "../reuse-components/button/button";
-import { userValidate } from "../../api";
 import { AppDispatch, RootState } from "../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,6 +20,7 @@ import {
 } from "../../Redux/slices/user";
 import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
+import axios from "axios";
 
 const Login: React.FC = (): JSX.Element => {
   const userDetails: IUser = useSelector((state: RootState) => state.user);
@@ -59,7 +59,7 @@ const Login: React.FC = (): JSX.Element => {
     };
     dispatch(setIsDisabledForCredentials(true));
     try {
-      const response = await userValidate(payload);
+      const response = await axios.post('/userValidate',payload)
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(setError(""));
@@ -107,7 +107,7 @@ const Login: React.FC = (): JSX.Element => {
       }}
       className="d-flex flex-column align-items-center w-100 justify-content-center"
     >
-      <Box component="form" onSubmit={handleFormSubmission}>
+      <Box component="form" onSubmit={handleFormSubmission} sx={{padding:1}}>
         {userDetails.error && (
           <Alert severity="error" sx={{ mb: 1 }}>
             {userDetails.error}

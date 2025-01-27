@@ -32,10 +32,10 @@ import {
   setSuccess,
   setAddress,
 } from "../../Redux/slices/user"; // Assuming actions are created for updating user fields
-import { user } from "../../api";
 import { Link } from "react-router-dom";
 import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
+import axios from "axios";
 
 const Register: React.FC = (): JSX.Element => {
   const userDetails: IUser = useSelector((state: RootState) => state.user);
@@ -123,9 +123,10 @@ const Register: React.FC = (): JSX.Element => {
     //console.log("Payload:", payload);
     dispatch(setIsDisabledForCredentials(true));
     try {
-      const response = await user(payload);
+      const response = await axios.post(`/register`,payload);
       //console.log(response.status)
       if (response.status === 201) {
+        localStorage.setItem("userData", JSON.stringify(response.data));
         dispatch(setSuccess(response.data.message));
         dispatch(setIsDisabledForCredentials(false));
       }
@@ -157,7 +158,7 @@ const Register: React.FC = (): JSX.Element => {
       }}
       className="d-flex flex-column align-items-center w-100 justify-content-center"
     >
-      <Box component="form" onSubmit={handleFormSubmission}>
+      <Box component="form" onSubmit={handleFormSubmission} sx={{padding:1}}>
         {userDetails.error && (
           <Alert severity="error" sx={{ mb: 1 }}>
             {userDetails.error}
@@ -244,7 +245,7 @@ const Register: React.FC = (): JSX.Element => {
           <TextField
             className="text-field"
             type="number"
-            sx={{ mb: 1 }}
+            sx={{ mb: 1}}
             value={userDetails.mobileNumber}
             onChange={(e) =>
               handleInputChange(
