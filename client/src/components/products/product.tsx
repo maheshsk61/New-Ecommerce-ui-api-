@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { ILoading, IProducts, IProductsData } from "../../interface";
 import {
-  IHandleButtons,
-  ILoading,
-  IProducts,
-  IProductsData,
-} from "../../interface";
-import { Box, Card, Grid2, Skeleton, Typography } from "@mui/material";
+  Box,
+  Card,
+  Grid2,
+  Skeleton,
+  Typography,
+  ImageList,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
 import Buttons from "../reuse-components/button/button";
@@ -36,8 +38,7 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
   const loading: ILoading = useSelector((state: RootState) => state.loading);
   //console.log(`loading ${JSON.stringify(loading)}`);
   const dialog = useSelector((state: RootState) => state.dialogbox);
-
-  const handleAddToCart = (product: IProductsData[] | any) => {
+    const handleAddToCart = (product: IProductsData[] | any) => {
     setDisabledButtonAddToCart({ [product.id]: true });
     dispatch(setAddToCart());
     dispatch(setCartItems(product));
@@ -147,14 +148,32 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                     }}
                   >
                     <Box className="d-flex flex-column">
-                      <img
-                        src={product.img}
-                        alt={product.name}
-                        style={{ width: 400, height: 300 }}
-                        onClick={() => {
-                          handleImage(product.img ?? "");
+                      <ImageList
+                        sx={{
+                          width: {
+                            xs: "auto",
+                            sm: "auto",
+                            md: 400,
+                            lg: 400,
+                            xl: 400,
+                            xxl: 400,
+                          },
+                          height: "auto",
                         }}
-                      />
+                      >
+                        <img
+                          src={product.img}
+                          alt={product.name}
+                          style={{
+                            objectFit: "cover",
+                            width: "200%",
+                            height: "100%",
+                          }}
+                          onClick={() => {
+                            handleImage(product.img ?? "");
+                          }}
+                        />
+                      </ImageList>
                       <Buttons
                         value={constant.addToCart}
                         onClick={() => handleAddToCart(product)}
@@ -179,16 +198,21 @@ const Product: React.FC<IProductsData> = (): JSX.Element => {
                     <Box className="d-flex flex-column ms-5">
                       {/* ms(margin-left) me(margin-right) */}
                       <Typography
-                        variant="h4"
+                        component="p"
                         sx={{
                           marginTop: {
                             xs: 1,
                             sm: 1,
                             md: 0,
                           },
+                          fontSize: {
+                            xs : "1rem",
+                            sm: "1rem",
+                            md: "2rem"
+                          }
                         }}
                       >
-                        {product.name}
+                        <b>{product.name}</b>
                       </Typography>
                       <Typography variant="h4">
                         {constant.rupees}

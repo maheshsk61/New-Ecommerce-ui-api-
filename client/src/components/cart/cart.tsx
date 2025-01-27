@@ -1,4 +1,11 @@
-import { Box, Card, Grid2, Skeleton, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Grid2,
+  Skeleton,
+  Typography,
+  ImageList,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
 import { IHandleButtons, ILoading, IProductsData } from "../../interface";
@@ -33,7 +40,7 @@ const Cart: React.FC = (): JSX.Element => {
   };
   const shiftProductsFromCartToBuyNow = () => {
     dispatch(setShiftProductsFromCartToBuyNow());
-    navigate("/buyNow")
+    navigate("/buyNow");
   };
   let price: number = 0;
   cart.cartItems.map((product) => {
@@ -126,11 +133,29 @@ const Cart: React.FC = (): JSX.Element => {
                 }}
               >
                 <Box className="d-flex flex-column">
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    style={{ width: 400, height: 300 }}
-                  />
+                  <ImageList
+                    sx={{
+                      width: {
+                        xs: "auto",
+                        sm: "auto",
+                        md: 400,
+                        lg: 400,
+                        xl: 400,
+                        xxl: 400,
+                      },
+                      height: "auto",
+                    }}
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      style={{
+                        objectFit: "cover",
+                        width: "200%",
+                        height: "100%",
+                      }}
+                    />
+                  </ImageList>
                   <Buttons
                     value={constant.removeFromCart}
                     onClick={() => handleRemoveFromCart(product, index)}
@@ -144,16 +169,21 @@ const Cart: React.FC = (): JSX.Element => {
                 </Box>
                 <Box className="ms-5">
                   <Typography
-                    variant="h4"
+                    component="p"
                     sx={{
                       marginTop: {
                         xs: 1,
                         sm: 1,
                         md: 0,
                       },
+                      fontSize: {
+                        xs : "1rem",
+                        sm: "1rem",
+                        md: "2rem"
+                      }
                     }}
                   >
-                    {product.name}
+                    <b>{product.name}</b>
                   </Typography>
                   <Typography variant="h4">
                     {constant.rupees}
@@ -182,7 +212,11 @@ const Cart: React.FC = (): JSX.Element => {
       )}
       <Box sx={{ textAlign: "left", marginTop: 2 }}>
         {cart.cartItems.length > 0 && (
-          <PriceTable subTotal={price} taxPrice={taxPrice} grandTotal={totalPriceWithTax}/>
+          <PriceTable
+            subTotal={price}
+            taxPrice={taxPrice}
+            grandTotal={totalPriceWithTax}
+          />
         )}
       </Box>
       {cart.cartItems.length > 0 && (

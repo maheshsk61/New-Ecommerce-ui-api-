@@ -24,6 +24,7 @@ export const handleButtonsSlice = createSlice({
       if (productIndex !== -1) {
         state.cartItems.splice(productIndex, 1);
         localStorage.setItem("cart", JSON.stringify(state.cartItems));
+        localStorage.setItem("count", state.count.toString());
       }
     },
     setCartItems(state, action: PayloadAction<IProductsData>) {

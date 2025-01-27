@@ -1,4 +1,4 @@
-import { Box, Card, Grid2, Typography } from "@mui/material";
+import { Box, Card, Grid2, ImageList, Typography } from "@mui/material";
 import { constant } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/store";
@@ -152,11 +152,29 @@ const BuyNow: React.FC = (): JSX.Element => {
               //console.log(`product ${JSON.stringify(product)}`);
               return (
                 <Box className="d-flex flex-column" key={index} sx={{ mb: 2 }}>
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    style={{ width: 300, height: 150 }}
-                  />
+                  <ImageList
+                    sx={{
+                      width: {
+                        xs: "auto",
+                        sm: "auto",
+                        md: 400,
+                        lg: 400,
+                        xl: 400,
+                        xxl: 400,
+                      },
+                      height: "auto",
+                    }}
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      style={{
+                        objectFit: "cover",
+                        width: "200%",
+                        height: "100%",
+                      }}
+                    />
+                  </ImageList>
                   <Typography variant="h6">{product.name}</Typography>
                   <Typography variant="h6">
                     <b>
