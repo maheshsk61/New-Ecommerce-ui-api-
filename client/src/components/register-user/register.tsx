@@ -106,6 +106,10 @@ const Register: React.FC = (): JSX.Element => {
       dispatch(setError("please enter mobile number"));
       return false;
     }
+    if (userDetails.address === "") {
+      dispatch(setError("please enter address"));
+      return false;
+    }
     if (userDetails.password === "") {
       dispatch(setError("please create password"));
       return false;
