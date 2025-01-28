@@ -20,7 +20,7 @@ import {
 } from "../../Redux/slices/user";
 import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
-import axios from "axios";
+import { userValidate } from "../../api";
 
 const Login: React.FC = (): JSX.Element => {
   const userDetails: IUser = useSelector((state: RootState) => state.user);
@@ -59,7 +59,7 @@ const Login: React.FC = (): JSX.Element => {
     };
     dispatch(setIsDisabledForCredentials(true));
     try {
-      const response = await axios.post('/userValidate',payload)
+      const response = await userValidate(payload)
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(setError(""));

@@ -35,7 +35,7 @@ import {
 import { Link } from "react-router-dom";
 import { setIsDisabledForCredentials } from "../../Redux/slices/handle-buttons";
 import { IHandleButtons, IUser } from "../../interface";
-import axios from "axios";
+import {user} from "../../api"
 
 const Register: React.FC = (): JSX.Element => {
   const userDetails: IUser = useSelector((state: RootState) => state.user);
@@ -127,7 +127,7 @@ const Register: React.FC = (): JSX.Element => {
     //console.log("Payload:", payload);
     dispatch(setIsDisabledForCredentials(true));
     try {
-      const response = await axios.post(`/register`,payload);
+      const response = await user(payload)
       //console.log(response.status)
       if (response.status === 201) {
         localStorage.setItem("userData", JSON.stringify(response.data));
